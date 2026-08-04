@@ -1,0 +1,25 @@
+[build]
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/content"
+  to = "/.netlify/functions/vt"
+  status = 200
+
+[[redirects]]
+  from = "/proxy/*"
+  to = "/.netlify/functions/vt"
+  status = 200
+
+[[redirects]]
+  from = "/vt"
+  to = "/vt-mirror/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/vt-content"
+  to = "/vt-mirror/content.html"
+  status = 200

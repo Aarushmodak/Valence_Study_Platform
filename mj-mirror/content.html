@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valence - Course Content</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        themeBg: '#050505',      /* Deep black */
+                        cardBg: 'rgba(10, 10, 12, 0.6)', /* Glassy dark gray for cards */
+                        cardHover: 'rgba(18, 18, 20, 0.8)',   
+                        themeYellow: '#FACC15', /* Main Branding Yellow */
+                        themeAmber: '#F59E0B',
+                        themeGreen: '#10B981',
+                        textDim: '#8A8A8A'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cinzel:wght@600;700;800;900&display=swap');
+        
+        /* Premium Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FACC15; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #ffffff;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Elegant Yellow Grid Background */
+        .bg-yellow-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(250, 204, 21, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(250, 204, 21, 0.03) 1px, transparent 1px);
+            mask-image: radial-gradient(ellipse at top center, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at top center, black 40%, transparent 80%);
+            animation: gridPulse 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes gridPulse {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* Ambient Glowing Yellow Orbs */
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.15; }
+            33% { transform: translate(30px, -50px) scale(1.1) rotate(120deg); opacity: 0.25; }
+            66% { transform: translate(-20px, 20px) scale(0.9) rotate(240deg); opacity: 0.2; }
+            100% { transform: translate(0, 0) scale(1) rotate(360deg); opacity: 0.15; }
+        }
+        .orb-1 { animation: drift 15s infinite ease-in-out; }
+        .orb-2 { animation: drift 20s infinite ease-in-out reverse; }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
+        }
+
+        /* Course Banner Gradient */
+        .banner-gradient {
+            background: linear-gradient(135deg, rgba(20,18,10,0.85) 0%, rgba(5,5,5,0.95) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(250, 204, 21, 0.15);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(250,204,21,0.05);
+        }
+        
+        /* Ultra Premium Glass Card with smooth transitions */
+        .glass-card { 
+            background: rgba(12, 12, 14, 0.55); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.06); 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-click-effect { transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-click-effect:active { transform: scale(0.92); }
+
+        /* Smooth Staggered Pop-in Animation */
+        @keyframes popIn {
+            0% { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(8px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+        .animate-pop-in {
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+        }
+        
+        /* Hide default scrollbar but allow scroll */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    
+        .brand-gold{font-family:'Cinzel',serif;font-weight:800;letter-spacing:.14em;background:linear-gradient(110deg,#f9e7b3,#fff8e0 45%,#d4af37 70%,#f9e7b3);background-size:220%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:brandShine 6s linear infinite}
+        @keyframes brandShine{to{background-position:220% center}}
+    </style>
+</head>
+<body class="text-white min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- Unique Yellow Background Elements -->
+    <div class="fixed inset-0 pointer-events-none bg-yellow-grid z-[-1]"></div>
+    
+    <!-- Yellow & Amber Orbs -->
+    <div class="fixed top-[-10%] left-[-5%] w-[400px] h-[400px] bg-themeYellow rounded-full blur-[150px] pointer-events-none z-[-1] orb-1"></div>
+    <div class="fixed bottom-[-15%] right-[-5%] w-[500px] h-[500px] bg-themeAmber rounded-full blur-[160px] pointer-events-none z-[-1] orb-2 opacity-50"></div>
+
+    <header class="border-b border-white/5 bg-[#050505]/80 backdrop-blur-xl px-4 py-3 sticky top-0 z-50 flex items-center justify-between shadow-2xl">
+        <div class="flex items-center gap-4 md:gap-6">
+            <button onclick="window.location.href='index.html'" class="flex items-center gap-2 text-textDim hover:text-themeYellow transition-colors text-xs font-bold tracking-wider btn-click-effect">
+                <i class="fa-solid fa-arrow-left"></i> <span class="hidden md:inline">BATCHES</span>
+            </button>
+            <div class="flex items-center gap-3">
+                <div class="relative w-8 h-8 md:w-9 md:h-9 rounded-full">
+                    <div class="absolute inset-0 bg-themeYellow/30 rounded-full animate-ping"></div>
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23f9e7b3'/><stop offset='0.55' stop-color='%23d4af37'/><stop offset='1' stop-color='%237a5d15'/></linearGradient></defs><path d='M32 4L56 24L32 60L8 24Z' fill='url(%23g)'/><path d='M8 24H56M32 4V60' stroke='rgba(255,255,255,0.45)' stroke-width='1.4'/><path d='M24 28L32 46L40 28' stroke='%23121008' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>" alt="Valence Logo" class="w-full h-full rounded-full object-cover shadow-[0_0_15px_rgba(250,204,21,0.3)] border border-white/10 relative z-10">
+                </div>
+                <h1 class="text-lg md:text-xl font-extrabold tracking-widest text-white"><span class="brand-gold">VAL<span class="text-themeYellow">ENCE</span></h1>
+            </div>
+        </div>
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-black/60 rounded-full border border-themeGreen/20 text-[10px] md:text-xs font-bold text-themeGreen uppercase tracking-wide shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+            <div class="w-1.5 h-1.5 rounded-full bg-themeGreen animate-pulse"></div>
+            DEV PRINCE
+        </div>
+    </header>
+
+    <main class="max-w-[1400px] w-full mx-auto p-4 md:p-6 lg:p-8 flex-1 relative z-10">
+        
+        <div id="course-banner" class="banner-gradient rounded-3xl p-6 md:p-10 flex flex-col-reverse md:flex-row items-center justify-between gap-8 mb-8 hidden shadow-2xl relative overflow-hidden animate-pop-in">
+            <!-- Glow Effect inside banner -->
+            <div class="absolute -top-24 -left-24 w-64 h-64 bg-themeYellow/10 blur-[100px] rounded-full pointer-events-none"></div>
+            
+            <div class="flex flex-col items-start gap-4 flex-1 w-full relative z-10">
+                <div class="flex items-center gap-2 px-3 py-1 bg-themeYellow/10 border border-themeYellow/30 rounded-full text-xs font-bold text-themeYellow uppercase tracking-wider shadow-inner">
+                    <div class="w-1.5 h-1.5 rounded-full bg-themeYellow animate-pulse"></div>
+                    ENROLLED PREMIUM
+                </div>
+                <h2 id="course-title" class="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-gray-400 leading-tight tracking-wide">
+                    Loading Batch...
+                </h2>
+            </div>
+            <div class="w-full md:w-auto shrink-0 flex justify-center md:justify-end relative z-10 group">
+                <div class="absolute inset-0 bg-themeYellow/20 blur-2xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <img id="course-thumb" src="" alt="Thumbnail" class="w-full max-w-[340px] rounded-2xl border border-white/10 shadow-[0_0_30px_rgba(250,204,21,0.15)] object-cover aspect-[16/9] hidden group-hover:scale-105 transition-transform duration-500">
+            </div>
+        </div>
+
+        <div class="flex gap-4 sm:gap-6 md:gap-8 border-b border-white/10 mb-8 overflow-x-auto scrollbar-hide animate-pop-in w-full" style="animation-delay: 100ms;">
+            <button id="tab-overview" onclick="switchTab('overview')" class="pb-3 text-xs sm:text-sm md:text-base font-bold flex items-center gap-1.5 md:gap-2 text-themeYellow border-b-2 border-themeYellow transition-colors whitespace-nowrap btn-click-effect shrink-0">
+                <i class="fa-solid fa-circle-info"></i> OVERVIEW
+            </button>
+            <button id="tab-content" onclick="switchTab('content')" class="pb-3 text-xs sm:text-sm md:text-base font-bold flex items-center gap-1.5 md:gap-2 text-textDim hover:text-white border-b-2 border-transparent transition-colors whitespace-nowrap btn-click-effect shrink-0">
+                <i class="fa-regular fa-folder-open"></i> CONTENT
+            </button>
+            <button id="tab-live" onclick="window.location.href='live.html?id=' + courseId" class="pb-3 text-xs sm:text-sm md:text-base font-bold flex items-center gap-1.5 md:gap-2 text-textDim hover:text-white border-b-2 border-transparent transition-colors whitespace-nowrap btn-click-effect shrink-0">
+                <i class="fa-solid fa-tower-broadcast"></i> LIVE
+            </button>
+        </div>
+
+        <div id="loader" class="flex flex-col justify-center items-center py-24 hidden">
+            <div class="relative w-16 h-16 mb-4">
+                <div class="absolute inset-0 rounded-full border-t-4 border-themeYellow animate-spin"></div>
+                <div class="absolute inset-2 rounded-full border-r-4 border-themeAmber animate-spin" style="animation-direction: reverse; animation-duration: 0.8s;"></div>
+            </div>
+            <p class="text-themeYellow text-sm font-bold tracking-widest uppercase animate-pulse">Fetching Data...</p>
+        </div>
+
+        <!-- OVERVIEW SECTION -->
+        <div id="section-overview" class="hidden">
+            <div class="glass-card rounded-3xl p-6 md:p-8 shadow-2xl text-gray-300 leading-relaxed text-sm md:text-base prose prose-invert max-w-none prose-headings:text-white prose-a:text-themeYellow border-t border-t-themeYellow/20" id="course-desc-content">
+                Loading description...
+            </div>
+        </div>
+
+        <!-- CONTENT SECTION -->
+        <div id="section-content" class="hidden">
+            <!-- Breadcrumbs -->
+            <div class="mb-6 glass-card p-3 rounded-2xl flex items-center overflow-x-auto whitespace-nowrap scrollbar-hide shadow-lg border border-white/5">
+                <div id="breadcrumbs" class="flex items-center text-xs md:text-sm font-bold text-textDim uppercase tracking-wider px-2">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div id="content-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-6">
+                <!-- Items Injected by JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="hidden flex-col items-center justify-center py-20 text-center">
+                <div class="w-20 h-20 bg-black/40 rounded-3xl flex items-center justify-center mb-4 border border-white/5 shadow-[0_0_30px_rgba(250,204,21,0.05)] relative overflow-hidden">
+                    <div class="absolute inset-0 bg-themeYellow/5"></div>
+                    <i class="fa-regular fa-folder-open text-3xl text-stone-500 relative z-10"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-1">Folder is Empty</h3>
+                <p class="text-sm text-textDim">No content available here yet.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Live API endpoint (CORS-enabled) so the mirror works from anywhere
+        const WORKER_URL = 'https://mjv.iownprince5.workers.dev/'; 
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseId = urlParams.get('id');
+        let folderHistory = [{ id: "0", title: "ROOT DIRECTORY" }]; 
+        
+        const elCourseBanner = document.getElementById('course-banner');
+        const elCourseThumb = document.getElementById('course-thumb');
+        const elCourseTitle = document.getElementById('course-title');
+        const elCourseDescContent = document.getElementById('course-desc-content');
+        
+        const elBreadcrumbs = document.getElementById('breadcrumbs');
+        const elLoader = document.getElementById('loader');
+        
+        const elContentGrid = document.getElementById('content-grid');
+        const elEmptyState = document.getElementById('empty-state');
+        
+        const sectionOverview = document.getElementById('section-overview');
+        const sectionContent = document.getElementById('section-content');
+
+        async function init() {
+            if (!courseId) {
+                alert("Course ID missing! Please provide ?id=XXX in the URL.");
+                return;
+            }
+            switchTab('overview');
+            fetchCourseOverview();
+            loadFolder("0", "ROOT DIRECTORY"); 
+        }
+
+        function switchTab(tabName) {
+            const inactiveClass = "pb-3 text-xs sm:text-sm md:text-base font-bold flex items-center gap-1.5 md:gap-2 text-textDim hover:text-white border-b-2 border-transparent transition-colors whitespace-nowrap btn-click-effect shrink-0";
+            const activeClass = "pb-3 text-xs sm:text-sm md:text-base font-bold flex items-center gap-1.5 md:gap-2 text-themeYellow border-b-2 border-themeYellow transition-colors whitespace-nowrap btn-click-effect shrink-0";
+            
+            // Reset
+            document.getElementById('tab-overview').className = inactiveClass;
+            document.getElementById('tab-content').className = inactiveClass;
+            
+            sectionOverview.classList.add('hidden');
+            sectionContent.classList.add('hidden');
+            
+            // Hide all sub-states to prevent overlapping
+            elContentGrid.classList.add('hidden');
+            elEmptyState.classList.add('hidden');
+
+            // Set Active
+            if (tabName === 'overview') {
+                document.getElementById('tab-overview').className = activeClass;
+                sectionOverview.classList.remove('hidden');
+                sectionOverview.classList.add('animate-pop-in');
+            } else if (tabName === 'content') {
+                document.getElementById('tab-content').className = activeClass;
+                sectionContent.classList.remove('hidden');
+                
+                if (elContentGrid.innerHTML.trim() !== '') {
+                    elContentGrid.classList.remove('hidden');
+                } else {
+                    elEmptyState.classList.remove('hidden');
+                }
+            }
+        }
+
+        async function fetchCourseOverview() {
+            try {
+                const res = await fetch(`${WORKER_URL}?overview=${courseId}`);
+                const json = await res.json();
+                
+                if (json.success && json.data) {
+                    const overviewTab = json.data.find(d => d.type === 'overview');
+                    const detailsSection = overviewTab?.data?.find(l => l.layout_type === 'details');
+                    const courseDetails = detailsSection?.layout_data?.[0];
+
+                    if (courseDetails) {
+                        elCourseTitle.innerText = courseDetails.title || 'Course Details';
+                        
+                        if(courseDetails.thumbnail) {
+                            elCourseThumb.src = courseDetails.thumbnail;
+                            elCourseThumb.classList.remove('hidden');
+                        }
+                        
+                        if(courseDetails.description) {
+                            elCourseDescContent.innerHTML = courseDetails.description;
+                        } else {
+                            elCourseDescContent.innerHTML = "<p>No description available for this course.</p>";
+                        }
+                        
+                        elCourseBanner.classList.remove('hidden');
+                        elCourseBanner.classList.add('flex');
+                    }
+                }
+            } catch (error) {
+                console.error("Overview Fetch Error:", error);
+            }
+        }
+
+        async function loadFolder(folderId, folderTitle) {
+            const existingIndex = folderHistory.findIndex(f => f.id === folderId);
+            if (existingIndex > -1) {
+                folderHistory = folderHistory.slice(0, existingIndex + 1);
+            } else {
+                folderHistory.push({ id: folderId, title: folderTitle });
+            }
+
+            renderBreadcrumbs();
+            showUI('loader');
+
+            try {
+                const res = await fetch(`${WORKER_URL}?content=${courseId}&folder=${folderId}`);
+                const json = await res.json();
+
+                if (json.success && json.data && json.data.length > 0) {
+                    renderContentGrid(json.data);
+                    showUI('grid');
+                } else {
+                    showUI('empty');
+                }
+            } catch (error) {
+                console.error("Content Fetch Error:", error);
+                showUI('empty');
+            }
+        }
+
+        function renderBreadcrumbs() {
+            elBreadcrumbs.innerHTML = folderHistory.map((folder, index) => {
+                const isFirst = index === 0;
+                const isLast = index === folderHistory.length - 1;
+                
+                let icon = isFirst ? `<i class="fa-solid fa-hard-drive mr-2 ${isLast ? 'text-themeYellow' : ''}"></i>` : '';
+                let colorClass = isLast ? 'text-themeYellow drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]' : 'text-textDim hover:text-white cursor-pointer';
+
+                return `
+                    <span class="flex items-center group">
+                        <span class="flex items-center transition-colors ${colorClass} btn-click-effect" 
+                              onclick="${isLast ? '' : `loadFolder('${folder.id}', '${folder.title.replace(/'/g, "\\'")}')`} ">
+                            ${icon} ${folder.title}
+                        </span>
+                        ${!isLast ? `<i class="fa-solid fa-chevron-right text-[9px] mx-3 text-gray-700 group-hover:text-themeYellow transition-colors"></i>` : ''}
+                    </span>
+                `;
+            }).join('');
+        }
+
+        function renderContentGrid(items) {
+            elContentGrid.innerHTML = items.map((item, index) => {
+                if (item.type === 'folder') return generateFolderHTML(item, index);
+                if (item.type === 'file') {
+                    const fileType = item.data?.file_type;
+                    if (fileType === 2 || item.data?.video_type > 0) return generateVideoHTML(item, index);
+                    return generatePdfHTML(item, index);
+                }
+                return '';
+            }).join('');
+        }
+
+        function generateFolderHTML(item, index) {
+            const counts = item.data?.content_counts || {};
+            const fCount = counts.folders?.total || 0;
+            const vCount = (counts.video?.paid || 0) + (counts.video?.free || 0);
+            const pCount = (counts.pdf?.paid || 0) + (counts.pdf?.free || 0);
+            const escapedTitle = item.title.replace(/'/g, "\\'");
+            
+            let countsText = `VIDEO ${vCount} &nbsp;&nbsp;PDF ${pCount}`;
+            if (fCount > 0 && vCount === 0 && pCount === 0) {
+                countsText = `FOLDERS ${fCount}`;
+            } else if (fCount > 0) {
+                countsText = `FOLDERS ${fCount} &nbsp;VIDEO ${vCount} &nbsp;PDF ${pCount}`;
+            }
+
+            const thumbnailHTML = item.data?.thumbnail 
+                ? `<img src="${item.data.thumbnail}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">`
+                : `<div class="w-full h-full flex items-center justify-center bg-[#0a0a0c] relative overflow-hidden">
+                       <div class="absolute inset-0 bg-themeYellow/5 group-hover:bg-themeYellow/10 transition-colors"></div>
+                       <div class="w-16 h-16 rounded-2xl bg-zinc-900 border border-white/5 flex items-center justify-center shadow-2xl z-10 group-hover:scale-110 group-hover:border-themeYellow/30 transition-all duration-500">
+                           <i class="fa-solid fa-folder text-3xl text-themeYellow drop-shadow-[0_0_15px_rgba(250,204,21,0.4)]"></i>
+                       </div>
+                   </div>`;
+
+            const delay = (index * 50) + 'ms';
+
+            return `
+                <div onclick="loadFolder('${item.entity_id}', '${escapedTitle}')" 
+                     class="glass-card rounded-[24px] cursor-pointer hover:-translate-y-2 hover:shadow-2xl hover:shadow-themeYellow/10 hover:border-themeYellow/40 group flex flex-col overflow-hidden h-[220px] animate-pop-in btn-click-effect" style="animation-delay: ${delay}">
+                    <div class="h-[125px] w-full relative overflow-hidden bg-black/80 border-b border-white/5">
+                        ${thumbnailHTML}
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between bg-cardBg group-hover:bg-cardHover transition-colors">
+                        <h3 class="text-white font-bold text-[13px] md:text-[14px] leading-snug line-clamp-2 group-hover:text-themeYellow transition-colors">${item.title}</h3>
+                        <div class="mt-2 text-[9px] md:text-[10px] text-textDim font-bold uppercase tracking-wider group-hover:text-white/70 transition-colors">
+                            ${countsText}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function formatDuration(seconds) {
+            if (!seconds || isNaN(seconds)) return '00:00';
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = Math.floor(seconds % 60);
+            const mStr = m.toString().padStart(2, '0');
+            const sStr = s.toString().padStart(2, '0');
+            return h > 0 ? `${h}:${mStr}:${sStr}` : `${mStr}:${sStr}`;
+        }
+
+        function formatDate(unixTimestamp) {
+            if (!unixTimestamp) return '';
+            const date = new Date(unixTimestamp * 1000);
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        function generateVideoHTML(item, index) {
+            const fallbackThumbnail = 'https://decicqog4ulhy.cloudfront.net/0/admin_v2/uploads/courses/thumbnail/2671188_1_logo.jpg';
+            const thumbnail = item.data?.thumbnail?.trim() ? item.data.thumbnail : fallbackThumbnail;
+            const durationRaw = item.data?.duration || 0;
+            const duration = formatDuration(durationRaw);
+            
+            const createdAtRaw = item.data?.created_at;
+            const formattedDate = formatDate(createdAtRaw);
+
+            const isLive = item.data?.is_live == 1;
+            const videoType = item.data?.video_type;
+            const vdcId = item.data?.vdc_id;
+            
+            const isUpcoming = !isLive && durationRaw == 0 && videoType != 4;
+            const isYouTube = !vdcId && videoType == 1;
+            
+            let topTagHTML = '';
+            
+            if (isYouTube) {
+                topTagHTML = `<div class="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-0.5 bg-red-600/90 backdrop-blur-md rounded-md border border-red-500/50 text-[8px] font-bold text-white uppercase tracking-widest shadow-lg"><i class="fa-brands fa-youtube text-xs"></i> YOUTUBE</div>`;
+            } else if (isLive) {
+                topTagHTML = `<div class="absolute top-2 left-2 flex items-center gap-1.5 px-2.5 py-1 bg-red-600 backdrop-blur-md rounded-md border border-red-400 text-[9px] font-extrabold text-white uppercase tracking-widest shadow-[0_0_15px_rgba(220,38,38,0.9)]"><div class="w-2 h-2 rounded-full bg-white animate-pulse"></div>LIVE NOW</div>`;
+            } else if (isUpcoming) {
+                topTagHTML = `<div class="absolute top-2 left-2 flex items-center gap-1.5 px-2.5 py-1 bg-blue-600 backdrop-blur-md rounded-md border border-blue-400 text-[9px] font-extrabold text-white uppercase tracking-widest shadow-[0_0_15px_rgba(37,99,235,0.9)]"><i class="fa-regular fa-clock"></i> UPCOMING</div>`;
+            } else {
+                topTagHTML = `<div class="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-0.5 bg-black/80 backdrop-blur-md rounded-md border border-white/10 text-[8px] font-bold text-themeYellow uppercase tracking-widest shadow-lg"><div class="w-1.5 h-1.5 rounded-full bg-themeYellow animate-pulse"></div>VIDEO</div>`;
+            }
+
+            const delay = (index * 50) + 'ms';
+
+            return `
+                <div onclick="window.location.href='play.html?courseId=${courseId}&contentId=${item.entity_id}'" 
+                     class="glass-card rounded-[24px] overflow-hidden cursor-pointer hover:-translate-y-2 hover:shadow-2xl hover:shadow-themeYellow/20 hover:border-themeYellow/40 group flex flex-col h-[220px] animate-pop-in btn-click-effect" style="animation-delay: ${delay}">
+                    <div class="relative h-[125px] w-full bg-black overflow-hidden border-b border-white/5">
+                        <img src="${thumbnail}" alt="${item.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        
+                        ${topTagHTML}
+                        
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30 backdrop-blur-[1px]">
+                            <div class="w-12 h-12 bg-themeYellow rounded-full flex items-center justify-center pl-1 shadow-[0_0_25px_rgba(250,204,21,0.6)] transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                                <i class="fa-solid fa-play text-black text-lg"></i>
+                            </div>
+                        </div>
+                        
+                        ${formattedDate ? `<div class="absolute bottom-2 left-2 bg-black/80 backdrop-blur-md text-gray-300 text-[9px] px-1.5 py-0.5 rounded font-bold tracking-wider border border-white/10 shadow-lg">${formattedDate}</div>` : ''}
+
+                        ${!isUpcoming && !isLive && !isYouTube && duration !== '00:00' ? `<div class="absolute bottom-2 right-2 bg-black/80 backdrop-blur-md text-white text-[9px] px-1.5 py-0.5 rounded font-bold tracking-wider border border-white/10 shadow-lg group-hover:bg-themeYellow group-hover:text-black group-hover:border-themeYellow transition-colors">${duration}</div>` : ''}
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between bg-cardBg group-hover:bg-cardHover transition-colors">
+                        <h3 class="text-white font-bold text-[13px] md:text-[14px] leading-snug line-clamp-2 group-hover:text-themeYellow transition-colors">${item.title}</h3>
+                        <div class="text-[9px] text-textDim font-bold tracking-widest uppercase mt-2">Lecture</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generatePdfHTML(item, index) {
+            const delay = (index * 50) + 'ms';
+            const createdAtRaw = item.data?.created_at;
+            const formattedDate = formatDate(createdAtRaw);
+            
+            return `
+                <div onclick="window.location.href='play.html?courseId=${courseId}&contentId=${item.entity_id}'" 
+                     class="glass-card rounded-[24px] overflow-hidden cursor-pointer hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-500/15 hover:border-red-500/40 group flex flex-col h-[220px] animate-pop-in btn-click-effect" style="animation-delay: ${delay}">
+                    <div class="relative h-[125px] w-full bg-[#0a0a0c] flex items-center justify-center overflow-hidden border-b border-white/5">
+                         <div class="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-colors"></div>
+                         
+                         <div class="w-16 h-16 rounded-2xl bg-zinc-900 border border-white/5 flex items-center justify-center shadow-2xl z-10 group-hover:scale-110 group-hover:border-red-500/30 transition-all duration-500">
+                             <i class="fa-solid fa-file-pdf text-3xl text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.4)]"></i>
+                         </div>
+                         
+                         <div class="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-0.5 bg-black/80 backdrop-blur-md rounded-md border border-white/10 text-[8px] font-bold text-red-500 uppercase tracking-widest shadow-lg">
+                             NOTES
+                        </div>
+
+                        ${formattedDate ? `<div class="absolute bottom-2 left-2 bg-black/80 backdrop-blur-md text-gray-300 text-[9px] px-1.5 py-0.5 rounded font-bold tracking-wider border border-white/10 shadow-lg">${formattedDate}</div>` : ''}
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between bg-cardBg group-hover:bg-cardHover transition-colors">
+                        <h3 class="text-white font-bold text-[13px] md:text-[14px] leading-snug line-clamp-2 group-hover:text-red-400 transition-colors">${item.title}</h3>
+                        <div class="text-[9px] text-textDim font-bold tracking-widest uppercase mt-2">Document</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showUI(state) {
+            elLoader.classList.add('hidden');
+            elContentGrid.classList.add('hidden');
+            elEmptyState.classList.add('hidden');
+
+            if (state === 'loader') {
+                elLoader.classList.remove('hidden');
+            } else if (state === 'grid') {
+                elContentGrid.classList.remove('hidden');
+                if(document.getElementById('tab-content').className.includes('border-themeYellow')) {
+                   sectionContent.classList.remove('hidden'); 
+                }
+            } else if (state === 'empty') {
+                elEmptyState.classList.remove('hidden');
+                if(document.getElementById('tab-content').className.includes('border-themeYellow')) {
+                   sectionContent.classList.remove('hidden'); 
+                }
+            }
+        }
+
+        // Boot
+        init();
+    </script>
+</body>
+</html>

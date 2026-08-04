@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Valence — Class 11th OG Kota Batch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Cinzel:wght@700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05050a;--bg1:#0a0a12;--bg2:#0e0e1a;
+  --s1:#111120;--s2:#16162a;--s3:#1c1c34;
+  --b1:#202038;--b2:#2a2a48;
+  --acc:#d4af37;--acc2:#f9e7b3;--acc3:#fff8e0;
+  --grn:#34d399;--red:#f87171;--ylw:#fbbf24;--cyan:#22d3ee;
+  --t1:#eeeeff;--t2:#9898c0;--t3:#565680;
+  --r:12px;--r2:8px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:'Sora',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-user-select:none;user-select:none}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+img{pointer-events:none;-webkit-user-drag:none}
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;height:60px;display:flex;align-items:center;padding:0 28px;gap:16px;
+  background:rgba(5,5,10,.92);backdrop-filter:blur(28px) saturate(180%);border-bottom:1px solid var(--b1)}
+.nlogo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.08rem;color:var(--t1);text-decoration:none;letter-spacing:-.025em}
+.nmark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:.85rem;box-shadow:0 0 20px rgba(124,111,255,.45)}
+.nsep{flex:1}
+.npill{font-size:.58rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);border:1px solid var(--b1);padding:5px 13px;border-radius:20px;background:var(--s1)}
+/* BC */
+.bc{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:10px 28px;font-size:.74rem;color:var(--t3);border-bottom:1px solid var(--b1);background:var(--bg1)}
+.bc a{text-decoration:none;color:var(--t3);transition:color .15s}.bc a:hover{color:var(--acc3)}
+.bc .cur{color:var(--t1);font-weight:600}.bcs{opacity:.35;font-size:.65rem}
+/* BANNER */
+.banner{position:relative;padding:52px 28px 42px;overflow:hidden;border-bottom:1px solid var(--b1)}
+.bnbg{position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 120% at 0% 50%,rgba(124,111,255,.14) 0%,transparent 60%),
+             radial-gradient(ellipse 40% 80% at 100% 20%,rgba(169,155,255,.08) 0%,transparent 55%),
+             radial-gradient(ellipse 30% 60% at 50% 100%,rgba(34,211,238,.05) 0%,transparent 55%)}
+.bndots{position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(124,111,255,.15) 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:radial-gradient(ellipse 90% 100% at 50% 50%,black 20%,transparent 75%)}
+.bnin{position:relative;z-index:1}
+.bney{display:inline-flex;align-items:center;gap:8px;font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--acc2);margin-bottom:16px;background:rgba(124,111,255,.08);border:1px solid rgba(124,111,255,.2);padding:5px 14px;border-radius:20px}
+.bney::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--grn);box-shadow:0 0 8px var(--grn);animation:gl 2s ease-in-out infinite}
+@keyframes gl{0%,100%{opacity:1}50%{opacity:.25}}
+.bnh1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.0;letter-spacing:-.035em;color:var(--t1);margin-bottom:14px}
+.bnh1 mark{background:none;background:linear-gradient(135deg,var(--acc),var(--acc2),var(--acc3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.bnmeta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px}
+.bst{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;color:var(--t2);background:var(--s1);border:1px solid var(--b1);padding:6px 14px;border-radius:8px}
+.bst svg{color:var(--acc2);flex-shrink:0}
+/* BODY */
+.body{padding:32px 28px 100px;max-width:1700px}
+.sec{margin-bottom:48px}
+.sechd{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.secln{flex:1;height:1px;background:linear-gradient(90deg,var(--b2) 0%,transparent 100%);margin-left:6px}
+.seclbl{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 13px;border-radius:6px}
+.lf{color:var(--ylw);background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.18)}
+.lv{color:var(--acc2);background:rgba(124,111,255,.08);border:1px solid rgba(124,111,255,.22)}
+.lp{color:var(--red);background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.18)}
+.secct{font-size:.68rem;color:var(--t3);background:var(--s1);border:1px solid var(--b1);padding:3px 10px;border-radius:8px}
+/* FOLDER */
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:10px}
+.fc{display:flex;align-items:center;gap:13px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:15px 17px;text-decoration:none;color:inherit;transition:all .2s;position:relative;overflow:hidden}
+.fc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--acc),var(--cyan));border-radius:0 2px 2px 0;transform:scaleY(0);transition:transform .2s}
+.fc:hover{border-color:var(--b2);background:var(--s2);transform:translateX(6px);box-shadow:6px 0 24px rgba(124,111,255,.1)}.fc:hover::before{transform:scaleY(1)}
+.fci{width:42px;height:42px;border-radius:11px;flex-shrink:0;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.18);display:flex;align-items:center;justify-content:center;font-size:1.15rem;transition:transform .2s}.fc:hover .fci{transform:scale(1.1) rotate(-3deg)}
+.fcb{flex:1;min-width:0}.fcn{font-size:.86rem;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fcm{font-size:.68rem;color:var(--t3);margin-top:3px}
+.fca{color:var(--t3);font-size:.85rem;transition:all .2s;flex-shrink:0}.fc:hover .fca{transform:translateX(4px);color:var(--acc3)}
+/* VIDEO */
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:20px}
+.vc{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .25s;position:relative}
+.vc:hover{border-color:rgba(124,111,255,.4);transform:translateY(-7px);box-shadow:0 28px 64px rgba(0,0,0,.75),0 0 0 1px rgba(124,111,255,.25)}
+.vt{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000}
+.vt img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;pointer-events:none}.vc:hover .vt img{transform:scale(1.07)}
+.vtph{width:100%;height:100%;background:linear-gradient(135deg,#080812,#0f0f1e);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.vtph-ring{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(124,111,255,.25);display:flex;align-items:center;justify-content:center}
+.vtph-ring svg{opacity:.3;color:var(--acc2)}
+.vo{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.05) 65%,transparent 100%);opacity:0;transition:opacity .28s}.vc:hover .vo{opacity:1}
+.vplay{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;box-shadow:0 0 36px rgba(124,111,255,.7);transform:scale(.8);transition:transform .22s}.vc:hover .vplay{transform:scale(1)}
+.vdur{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.88);font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#fff;padding:3px 8px;border-radius:5px;backdrop-filter:blur(8px);letter-spacing:.03em}
+.vb{padding:14px 15px 16px}
+.vtag{display:inline-flex;align-items:center;gap:4px;font-size:.57rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--acc2);background:rgba(124,111,255,.1);border:1px solid rgba(124,111,255,.22);padding:3px 9px;border-radius:5px;margin-bottom:9px}
+.vtt{font-size:.87rem;font-weight:600;line-height:1.35;color:var(--t1);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* PDF */
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:10px}
+.pc{display:flex;align-items:center;gap:13px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:15px 17px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.pc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--red),#fb923c);border-radius:0 2px 2px 0;transform:scaleY(0);transition:transform .2s}
+.pc:hover{border-color:rgba(248,113,113,.3);background:var(--s2);transform:translateX(6px)}.pc:hover::before{transform:scaleY(1)}
+.pci{width:42px;height:42px;border-radius:11px;flex-shrink:0;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.18);display:flex;align-items:center;justify-content:center;font-size:1.15rem;transition:transform .2s}.pc:hover .pci{transform:scale(1.1) rotate(-3deg)}
+.pcb{flex:1;min-width:0}.pcn{font-size:.83rem;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pcm{font-size:.67rem;color:var(--t3);margin-top:3px}
+.pcdl{width:34px;height:34px;border-radius:9px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.18);display:flex;align-items:center;justify-content:center;color:var(--red);flex-shrink:0;transition:all .18s}.pc:hover .pcdl{background:var(--red);color:#fff;border-color:var(--red);transform:scale(1.08) rotate(5deg)}
+.empty{text-align:center;padding:80px 20px;color:var(--t3)}.emico{font-size:3.5rem;margin-bottom:16px;opacity:.4}
+/* ══════ PLAYER ══════ */
+.ov{display:none;position:fixed;inset:0;z-index:200;background:#000;flex-direction:column}
+.ov.on{display:flex}
+.pscreen{position:relative;flex:1;min-height:0;background:#000;overflow:hidden}
+.pscreen video{width:100%;height:100%;display:block;object-fit:contain}
+.pload{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#000;z-index:10;transition:opacity .3s}
+.pload.gone{opacity:0;pointer-events:none}
+.ring{width:44px;height:44px;border:3px solid rgba(255,255,255,.12);border-top-color:var(--acc2);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.pload p{font-size:.76rem;color:rgba(255,255,255,.35)}
+.perr{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#000;z-index:10;padding:24px;text-align:center}
+.perr.on{display:flex}.perr p{font-size:.8rem;color:rgba(255,255,255,.4);max-width:300px}
+.cov{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;justify-content:space-between;
+  background:linear-gradient(to bottom,rgba(0,0,0,.65) 0%,transparent 22%,transparent 65%,rgba(0,0,0,.9) 100%);
+  opacity:0;transition:opacity .28s;pointer-events:none;}
+.cov.vis{opacity:1;pointer-events:all}
+.cov-top{display:flex;align-items:center;gap:10px;padding:14px 18px}
+.cbk{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:7px;font-family:'Sora',sans-serif;font-size:.82rem;font-weight:600;transition:all .15s;padding:6px 10px;border-radius:8px}
+.cbk:hover{color:#fff;background:rgba(255,255,255,.1)}
+.cvtit{flex:1;font-size:.88rem;font-weight:600;color:rgba(255,255,255,.9);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cov-bot{padding:8px 16px 14px}
+.pwrap{position:relative;width:100%;height:22px;cursor:pointer;display:flex;align-items:center}
+.ptrack{width:100%;height:3px;background:rgba(255,255,255,.18);border-radius:4px;position:relative;transition:height .15s}
+.pwrap:hover .ptrack{height:5px}
+.pbuf{position:absolute;left:0;top:0;height:100%;background:rgba(255,255,255,.25);border-radius:4px;width:0;pointer-events:none}
+.pfill{position:absolute;left:0;top:0;height:100%;background:var(--acc2);border-radius:4px;width:0;pointer-events:none}
+.pthumb{position:absolute;top:50%;transform:translate(-50%,-50%) scale(0);width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 0 10px rgba(169,155,255,.9);transition:transform .15s;pointer-events:none;left:0}
+.pwrap:hover .pthumb{transform:translate(-50%,-50%) scale(1)}
+.crow{display:flex;align-items:center;gap:6px;padding-top:4px}
+.cb{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.82);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.cb:hover{color:#fff;background:rgba(255,255,255,.1)}
+.tdis{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:rgba(255,255,255,.65);padding:0 4px;white-space:nowrap}
+.vwrap{display:flex;align-items:center;gap:4px}
+.vsl{-webkit-appearance:none;appearance:none;width:70px;height:3px;background:rgba(255,255,255,.22);border-radius:3px;cursor:pointer;outline:none}
+.vsl::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:#fff;cursor:pointer}
+.csep{width:1px;height:18px;background:rgba(255,255,255,.12);margin:0 2px;flex-shrink:0}
+.cright{margin-left:auto;display:flex;align-items:center;gap:4px;position:relative}
+.spanel{position:absolute;bottom:48px;right:0;width:260px;background:rgba(8,8,18,.97);border:1px solid var(--b2);border-radius:14px;overflow:hidden;box-shadow:0 12px 50px rgba(0,0,0,.85);display:none;backdrop-filter:blur(20px);font-size:.82rem;}
+.spanel.on{display:block}
+.sp-page{display:none}.sp-page.on{display:block}
+.sp-row{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;transition:background .15s;border-bottom:1px solid rgba(255,255,255,.04);}
+.sp-row:last-child{border-bottom:none}
+.sp-row:hover{background:rgba(124,111,255,.1)}
+.sp-row-ico{width:32px;height:32px;border-radius:8px;background:var(--s2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--acc2)}
+.sp-row-body{flex:1;min-width:0}
+.sp-row-label{font-weight:600;color:var(--t1);font-size:.8rem}
+.sp-row-val{font-size:.7rem;color:var(--t3);font-family:'JetBrains Mono',monospace;margin-top:1px}
+.sp-row-arr{color:var(--t3);font-size:.75rem}
+.sp-sub-hd{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;}
+.sp-sub-hd:hover{background:rgba(255,255,255,.04)}
+.sp-sub-hd span{font-weight:700;font-size:.78rem;color:var(--t1)}
+.sp-sub-hd svg{color:var(--t3);flex-shrink:0}
+.sp-opt{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;cursor:pointer;transition:background .15s;font-size:.8rem;color:var(--t2);font-family:'JetBrains Mono',monospace;}
+.sp-opt:hover{background:rgba(124,111,255,.1);color:var(--t1)}
+.sp-opt.act{color:var(--acc2);font-weight:700}
+.sp-opt-chk{width:18px;height:18px;border-radius:50%;border:2px solid var(--b2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.sp-opt.act .sp-opt-chk{background:var(--acc);border-color:var(--acc)}
+.sp-opt.act .sp-opt-chk::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff}
+@media(max-width:600px){
+  .nav{padding:0 16px}.bc{padding:9px 16px}.banner{padding:32px 16px 28px}.body{padding:20px 16px 70px}
+  .vwrap{display:none}
+}
+/* IMAGE */
+.ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.ic{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .25s;position:relative}
+.ic:hover{border-color:rgba(34,211,238,.4);transform:translateY(-5px);box-shadow:0 22px 55px rgba(0,0,0,.7),0 0 0 1px rgba(34,211,238,.2)}
+.ic-thumb{width:100%;aspect-ratio:4/3;overflow:hidden;background:var(--s2);position:relative}
+.ic-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;pointer-events:none}
+.ic:hover .ic-thumb img{transform:scale(1.06)}
+.ic-ov{position:absolute;inset:0;background:rgba(0,0,0,.42);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .22s}
+.ic:hover .ic-ov{opacity:1}
+.ic-eye{width:44px;height:44px;border-radius:50%;background:rgba(34,211,238,.18);border:1.5px solid var(--cyan);display:flex;align-items:center;justify-content:center;color:var(--cyan)}
+.ic-body{padding:11px 13px}
+.ic-name{font-size:.8rem;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ic-tag{display:inline-flex;align-items:center;gap:4px;font-size:.57rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);padding:3px 9px;border-radius:5px;margin-bottom:7px}
+/* LIGHTBOX */
+.lbx{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.96);flex-direction:column;align-items:center;justify-content:center}
+.lbx.on{display:flex}
+.lbx-top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:12px;padding:16px 20px;background:linear-gradient(to bottom,rgba(0,0,0,.75),transparent)}
+.lbx-close{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.8);width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.lbx-close:hover{background:rgba(255,255,255,.12);color:#fff}
+.lbx-title{flex:1;font-size:.88rem;font-weight:600;color:rgba(255,255,255,.88);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbx-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:50%;width:46px;height:46px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;transition:all .18s;backdrop-filter:blur(8px)}
+.lbx-nav:hover{background:rgba(255,255,255,.22)}
+.lbx-prev{left:18px}.lbx-next{right:18px}
+.lbx-img-wrap{max-width:92vw;max-height:85vh;display:flex;align-items:center;justify-content:center}
+.lbx-img-wrap img{max-width:100%;max-height:85vh;object-fit:contain;border-radius:8px;pointer-events:none;user-select:none}
+.lbx-counter{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);font-size:.72rem;color:rgba(255,255,255,.45);background:rgba(0,0,0,.5);padding:5px 14px;border-radius:20px;backdrop-filter:blur(8px)}
+.li{color:var(--cyan);background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18)}
+.fi{animation:fi .32s ease both}
+@keyframes fi{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fi:nth-child(1){animation-delay:.04s}.fi:nth-child(2){animation-delay:.08s}.fi:nth-child(3){animation-delay:.12s}.fi:nth-child(4){animation-delay:.16s}.fi:nth-child(5){animation-delay:.2s}.fi:nth-child(6){animation-delay:.24s}.fi:nth-child(7){animation-delay:.28s}.fi:nth-child(8){animation-delay:.32s}.fi:nth-child(n+9){animation-delay:.36s}
+
+/* ══════ LIVE CLASSES ══════ */
+.live-section{padding:0 28px;margin-bottom:36px}
+.live-hd{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.live-pulse{display:flex;align-items:center;gap:7px;font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 14px;border-radius:8px}
+.live-pulse.is-live{color:#ff4444;background:rgba(255,68,68,.1);border:1px solid rgba(255,68,68,.3)}
+.live-pulse.is-upcoming{color:var(--ylw);background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.22)}
+.live-pulse.is-live::before{content:'';width:7px;height:7px;border-radius:50%;background:#ff4444;box-shadow:0 0 0 0 rgba(255,68,68,.5);animation:lp 1.4s ease-in-out infinite}
+@keyframes lp{0%{box-shadow:0 0 0 0 rgba(255,68,68,.5)}70%{box-shadow:0 0 0 8px rgba(255,68,68,0)}100%{box-shadow:0 0 0 0 rgba(255,68,68,0)}}
+.live-pulse.is-upcoming::before{content:'🕐';font-size:.75rem;margin-right:-2px}
+.live-secln{flex:1;height:1px;background:linear-gradient(90deg,var(--b2) 0%,transparent 100%);margin-left:6px}
+.live-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
+.lvc{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .25s;position:relative}
+.lvc.is-live{border-color:rgba(255,68,68,.35)}
+.lvc.is-live:hover{border-color:rgba(255,68,68,.7);transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.75),0 0 0 1px rgba(255,68,68,.3)}
+.lvc.is-upcoming{border-color:rgba(251,191,36,.2)}
+.lvc.is-upcoming:hover{border-color:rgba(251,191,36,.5);transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.75),0 0 0 1px rgba(251,191,36,.2)}
+.lvc-thumb{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000}
+.lvc-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.lvc:hover .lvc-thumb img{transform:scale(1.06)}
+.lvc-badge{position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:5px;font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:6px;backdrop-filter:blur(8px);z-index:2}
+.lvc-badge.is-live{background:rgba(255,44,44,.9);color:#fff}
+.lvc-badge.is-live::before{content:'';width:6px;height:6px;border-radius:50%;background:#fff;animation:lp2 1s ease-in-out infinite}
+@keyframes lp2{0%,100%{opacity:1}50%{opacity:.2}}
+.lvc-badge.is-upcoming{background:rgba(30,20,5,.85);color:var(--ylw);border:1px solid rgba(251,191,36,.4)}
+.lvc-play-ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);opacity:0;transition:opacity .25s}
+.lvc:hover .lvc-play-ov{opacity:1}
+.lvc-play-btn{width:54px;height:54px;border-radius:50%;background:rgba(255,68,68,.85);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(255,68,68,.6);transform:scale(.82);transition:transform .2s}
+.lvc.is-upcoming .lvc-play-btn{background:rgba(251,191,36,.75);box-shadow:0 0 30px rgba(251,191,36,.4)}
+.lvc:hover .lvc-play-btn{transform:scale(1)}
+.lvc-body{padding:13px 15px 15px}
+.lvc-title{font-size:.88rem;font-weight:600;color:var(--t1);line-height:1.35;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lvc-meta{display:flex;align-items:center;gap:8px;font-size:.7rem;color:var(--t3)}
+.lvc-dot{width:3px;height:3px;border-radius:50%;background:var(--t3)}
+.lvc-time{font-family:'JetBrains Mono',monospace;color:var(--ylw);font-size:.68rem}
+.upcoming-msg{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:100%;background:linear-gradient(135deg,rgba(251,191,36,.06),transparent);font-size:.75rem;color:var(--ylw);font-weight:600}
+
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nlogo"><div class="nmark" style="padding:6px;background:linear-gradient(135deg,#f9e7b3,#d4af37)"><svg viewBox="0 0 48 56" fill="none" width="100%" height="100%"><path d="M24 2L42 18L24 54L6 18Z" fill="url(#nk)" stroke="rgba(249,231,179,.9)" stroke-width="1"/><path d="M17 23L24 41L31 23" stroke="#120d02" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="nk" x1="6" y1="2" x2="42" y2="54"><stop offset="0" stop-color="#f9e7b3"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8a6d1f"/></linearGradient></defs></svg></div><span class="nb-gold">Valence</span></a>
+  <div class="nsep"></div>
+  <span class="npill">Class 11th OG Kota Batch</span>
+</nav>
+
+<div class="bc">
+  <a href="index.html">Home</a>
+  <span class="bcs">›</span>
+    <span class="cur">Class 11th OG Kota Batch</span>
+  </div>
+
+<div class="banner">
+  <div class="bnbg"></div><div class="bndots"></div>
+  <div class="bnin">
+    <div class="bney">Vibrant Academy · Kota</div>
+    <h1 class="bnh1"><mark>Class 11th OG Kota Batch</mark></h1>
+    <div class="bnmeta">
+      <div class="bst"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>8 Folders</div>      <div class="bst"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>2 Videos</div>      <div class="bst"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>3 PDFs</div>      <div class="bst"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>3 Images</div>    </div>
+  </div>
+</div>
+
+<div class="body">
+
+
+<div class="live-section">
+  <div class="live-hd">
+    <div class="live-pulse is-upcoming">Upcoming Classes</div>
+    <span style="font-size:.68rem;color:var(--t3);background:var(--s1);border:1px solid var(--b1);padding:3px 10px;border-radius:8px">1</span>
+    <div class="live-secln"></div>
+  </div>
+  <div class="live-grid">
+        <div class="lvc is-upcoming fi">
+      <div class="lvc-thumb">
+                  <img src="https://appx-content-v2.classx.co.in/paid_course4/2026-08-03-0_22142868728695486.jpeg" alt="" loading="lazy">
+                <div class="lvc-badge is-upcoming">Upcoming</div>
+                <div style="position:absolute;bottom:8px;left:8px;right:8px">
+          <div class="countdown-bar" data-ts="1785833100" style="background:rgba(0,0,0,.75);backdrop-filter:blur(8px);border-radius:8px;padding:6px 10px;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--ylw);text-align:center">Loading...</div>
+        </div>
+              </div>
+      <div class="lvc-body">
+        <div class="lvc-title">Circular Motion and WPE | L-06 |</div>
+        <div class="lvc-meta">
+          <span>Scheduled</span>
+          <div class="lvc-dot"></div><span class="lvc-time">04-08-2026 at 02:15 pm</span>        </div>
+      </div>
+    </div>
+      </div>
+</div>
+
+
+
+<div class="sec">
+  <div class="sechd"><span class="seclbl lf">📁 Folders</span><span class="secct">8</span><div class="secln"></div></div>
+  <div class="fg">
+        <a href="?batch=1&f=4927&n=NKS+Sir+%28Phy%29&bc=%5B%7B%22id%22%3A%223929%22%2C%22name%22%3A%22Class+11th+OG+Kota+Batch%22%7D%5D" class="fc fi">
+      <div class="fci">📁</div>
+      <div class="fcb"><div class="fcn">NKS Sir (Phy)</div><div class="fcm">47 videos · 70 files</div></div>
+      <span class="fca">›</span>
+    </a>
+        <a href="?batch=1&f=4930&n=MS+Chouhan+Sir+%28OC%29&bc=%5B%7B%22id%22%3A%223929%22%2C%22name%22%3A%22Class+11th+OG+Kota+Batch%22%7D%5D" class="fc fi">
+      <div class="fci">📁</div>
+      <div class="fcb"><div class="fcn">MS Chouhan Sir (OC)</div><div class="fcm">27 videos · 32 files</div></div>
+      <span class="fca">›</span>
+    </a>
+        <a href="?batch=1&f=4933&n=N+Avasthi+Sir+%28PC%29&bc=%5B%7B%22id%22%3A%223929%22%2C%22name%22%3A%22Class+11th+OG+Kota+Batch%22%7D%5D" class="fc fi">
+      <div class="fci">📁</div>
+      <div class="fcb"><div class="fcn">N Avasthi Sir (PC)</div><div class="fcm">44 videos · 47 files</div></div>
+      <span class="fca">›</span>
+    </a>
+        <a href="?batch=1&f=4936&n=VK+Jaiswal+Sir+%28IC%29&bc=%5B%7B%22id%22%3A%223929%22%2C%22name%22%3A%22Class+11th+OG+Kota+Batch%22%7D%5D" class="fc fi">
+      <div class="fci">📁</div>
+      <div class="fcb"><div class="fcn">VK Jaiswal Sir (IC)</div><div class="fcm">19 videos · 23 files</div></div>
+      <span class="fca">›</span>
+    </a>
+        <a href="?batch=1&f=4939&n=PJ+Sir+%28Maths%29&bc=%5B%7B%22id%22%3A%223929%22%2C%22name%22%3A%22Class+11th+OG+Kota+Batch%22%7D%5D" class="fc fi">
+      <div class="fci">📁</div>
+      <div class="fcb"><div class="fcn">PJ Sir (Maths)</div><div class="fcm">68 videos · 66 files</div></div>
+      <span class="fca">›</span>
+    </a>
+        <a href="?batch=1&f=6503&n=Test+Paper&bc=%5B%7B%22id%22%3A%223929%22%2C%22name%22%3A%22Class+11th+OG+Kota+Batch%22%7D%5D" class="fc fi">
+      <div class="fci">📁</div>
+      <div class="fcb"><div class="fcn">Test Paper</div><div class="fcm">3 files</div></div>
+      <span class="fca">›</span>
+    </a>
+        <a href="?batch=1&f=3935&n=CLASS+10TH+LECTURE&bc=%5B%7B%22id%22%3A%223929%22%2C%22name%22%3A%22Class+11th+OG+Kota+Batch%22%7D%5D" class="fc fi">
+      <div class="fci">📁</div>
+      <div class="fcb"><div class="fcn">CLASS 10TH LECTURE</div><div class="fcm">4 videos</div></div>
+      <span class="fca">›</span>
+    </a>
+        <a href="?batch=1&f=4570&n=Bridge+Course&bc=%5B%7B%22id%22%3A%223929%22%2C%22name%22%3A%22Class+11th+OG+Kota+Batch%22%7D%5D" class="fc fi">
+      <div class="fci">📁</div>
+      <div class="fcb"><div class="fcn">Bridge Course</div><div class="fcm">1 video · 1 file</div></div>
+      <span class="fca">›</span>
+    </a>
+      </div>
+</div>
+
+<div class="sec">
+  <div class="sechd"><span class="seclbl lv">▶ Videos</span><span class="secct">2</span><div class="secln"></div></div>
+  <div class="vg">
+        <div class="vc fi" onclick="_pv('8387','Chemical Equilibrium lecture | L-11 |','')">
+      <div class="vt">
+                  <img src="https://appx-content-v2.classx.co.in/subject/2026-07-21-0_5065658901353972.jpeg" alt="" loading="lazy" onerror="this.style.display='none'">
+                <div class="vo"><div class="vplay"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
+              </div>
+      <div class="vb"><div class="vtag">▶ Video</div><div class="vtt">Chemical Equilibrium lecture | L-11 |</div></div>
+    </div>
+        <div class="vc fi" onclick="_pv('8389','Sequence and Progression | L-07 |','')">
+      <div class="vt">
+                  <img src="https://appx-content-v2.classx.co.in/subject/2026-07-21-0_32731327296158974.jpeg" alt="" loading="lazy" onerror="this.style.display='none'">
+                <div class="vo"><div class="vplay"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
+              </div>
+      <div class="vb"><div class="vtag">▶ Video</div><div class="vtt">Sequence and Progression | L-07 |</div></div>
+    </div>
+      </div>
+</div>
+
+<div class="sec">
+  <div class="sechd"><span class="seclbl lp">📄 PDFs</span><span class="secct">3</span><div class="secln"></div></div>
+  <div class="pg">
+        <div class="pc fi"
+         data-token="9VANO11VzFkvWqCfdKkqTvVhGLbKUhyRCulyj82L1rfF6JtRbLDEkE6c2-yS78YL585f3Xu8cvEfzbBuQJeqpcjwUchQsUqH4KMC7BMJyCgPZtdnrKdGDTcWSvV8slA1hHLm_i3Ao8yrFNhBzSfoR-DB7DPVpp-MucN2UwbXiG__6S9TZdqLgTjQpqJrYEJjLG7uZkoaQ0TxSQCspq-YyyvJPzTHgXxwad5LDQ3g1ZMComd94KbUEhTwV-JeHQled8fzXXBetvkpuqbUgVCNWx4EPFzVBNxLqWg7jyf-zsNKqdjGDkJrrjugdrCmSelYlFg2a8nMLRcpXhpf6msBAP4MRHRepZaiLFt8UbVMtGw1tFI3sN-_9evpzZFF_V-KLITxZNpzE0e1FqhmbBMWTnGVWMCMJZy0sHNb1nrmabb4qFf6og3O8oX-cYM4ivbgplg3-KxABDF60m_35rgyFg"
+         data-title="Test Syllabus"
+         onclick="_dp2(this)">
+      <div class="pci">📄</div>
+      <div class="pcb"><div class="pcn">Test Syllabus</div><div class="pcm">PDF · Click to open</div></div>
+      <div class="pcdl"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></div>
+    </div>
+        <div class="pc fi"
+         data-token="HAQNzkZ3VZhXNiyONNYEMJWnYFgdTySVYaQ_ULowJVmVi8D0b1i9XpCqTjOBq2YhTLSxzW57GIGpCfmg7qXzaqjn0EdU9rLzaPsi1OpYRfaOTlI3TwCLfFu-dkqjTOfnYgo-buaBT1g96bWycFQQ2dsUiurHRyt0f864TFoCi1t1yuOsAPiJldmHIGvcijxLvyyvhN9JsbApyLnObyMYQgY3chpP8yLwqK13ODJe884kUeehtmNmRyZUY0xDTVGCb3fZ3DFsz4cIPk-Y1FMDq9WtY8LNygnMr_FKJ4n3zXiWM_6fb814Q3RpvtRz6Ta5At2TmkMLcYPymUONkd-WomD65s5w5pID7RS_ZPoo5cuLoKEP5sSSndnEzG1mKlcvBfmJaTpmj4oMVTDK0RHrFl4mpaxSvWpjIHhNzX6014H54UgTHAlJoj5AXDUvb7o5foxtK0TRP8ZI5-Sro2PXjw"
+         data-title="Class 11th Test schedule 2026-27"
+         onclick="_dp2(this)">
+      <div class="pci">📄</div>
+      <div class="pcb"><div class="pcn">Class 11th Test schedule 2026-27</div><div class="pcm">PDF · Click to open</div></div>
+      <div class="pcdl"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></div>
+    </div>
+        <div class="pc fi"
+         data-token="J2o-wm7sXVSDCAEaV8eRHAzPqVR9Ql87QonZ9zqnZMD7GGHswhIQ6u2J2uJZlY3fYj4MivBnY9Wyg1GPdb_X045lwrLmoYxusTDTE_ujKpYan2fc_-6rxCrKm60lo-dlVKwITzC4BQEhDKps2czvLuNtMnZSFo6YoUyPkr7L9QnRiPvqsvUQ56H6vpSTrwiBhCgd9mX6t76_KDSboxUOFDqXGuBvB9jbp-mm6NZzveWxHWHcu2Tqj3fqGHOV5su3NXUPNzwwyh0weLXhyXiv0o-TLSbB--1V4-Ath33upCMnSYDvrfe4KoQ_Tg4CUe7kFZaLcWq0aalO9ZFWdXbdkLnHUBy-bR1oM3YedA3sqhvuH40aWMl0g_gpIJv0T0tVpEkjMDWu55oj1vjXcit5mNf1CcGLT0b6NTpCquKGNhVZPk4hiKzgB8s_yQRet0T2BzXKhQyHMPNB7FJb0jI3NA"
+         data-title="Test Syllabus"
+         onclick="_dp2(this)">
+      <div class="pci">📄</div>
+      <div class="pcb"><div class="pcn">Test Syllabus</div><div class="pcm">PDF · Click to open</div></div>
+      <div class="pcdl"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></div>
+    </div>
+      </div>
+</div>
+
+<div class="sec">
+  <div class="sechd"><span class="seclbl li">🖼️ Images</span><span class="secct">3</span><div class="secln"></div></div>
+  <div class="ig">
+        <div class="ic fi" onclick="_oi(0)">
+      <div class="ic-thumb">
+                  <img src="https://appx-content-v2.classx.co.in/paid_course4/2026-07-28-0_8958335982355342.jpeg" alt="Notice" loading="lazy" onerror="this.parentElement.style.background='var(--s3)'">
+                <div class="ic-ov"><div class="ic-eye"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div>
+      </div>
+      <div class="ic-body"><div class="ic-tag">🖼 Image</div><div class="ic-name">Notice</div></div>
+    </div>
+        <div class="ic fi" onclick="_oi(1)">
+      <div class="ic-thumb">
+                  <img src="https://appx-content-v2.classx.co.in/paid_course4/2026-06-05-0.031020959377007995.jpeg" alt="11th Class Weekly Time-Table" loading="lazy" onerror="this.parentElement.style.background='var(--s3)'">
+                <div class="ic-ov"><div class="ic-eye"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div>
+      </div>
+      <div class="ic-body"><div class="ic-tag">🖼 Image</div><div class="ic-name">11th Class Weekly Time-Table</div></div>
+    </div>
+        <div class="ic fi" onclick="_oi(2)">
+      <div class="ic-thumb">
+                  <img src="https://appx-content-v2.classx.co.in/paid_course4/2026-07-18-0.6541777519621695.jpeg" alt="11th Class Weekly Time-Table" loading="lazy" onerror="this.parentElement.style.background='var(--s3)'">
+                <div class="ic-ov"><div class="ic-eye"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div>
+      </div>
+      <div class="ic-body"><div class="ic-tag">🖼 Image</div><div class="ic-name">11th Class Weekly Time-Table</div></div>
+    </div>
+      </div>
+</div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lbx" id="lbx" onclick="_lbxbg(event)">
+  <div class="lbx-top">
+    <button class="lbx-close" onclick="_clbx()">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <span class="lbx-title" id="lbx-title"></span>
+  </div>
+  <button class="lbx-nav lbx-prev" onclick="event.stopPropagation();_lbxn(-1)">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <div class="lbx-img-wrap"><img id="lbx-img" src="" alt=""></div>
+  <button class="lbx-nav lbx-next" onclick="event.stopPropagation();_lbxn(1)">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <div class="lbx-counter" id="lbx-counter"></div>
+</div>
+
+<!-- PLAYER -->
+<div class="ov" id="ov">
+  <div class="pscreen" id="ps">
+    <video id="v" playsinline></video>
+    <div class="pload" id="pl"><div class="ring"></div><p>Loading…</p></div>
+    <div class="perr" id="pe"><p style="font-size:2.5rem">⚠️</p><p id="pm"></p></div>
+    <div class="cov" id="co">
+      <div class="cov-top">
+        <button class="cbk" onclick="_cp()">
+          <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Back
+        </button>
+        <span class="cvtit" id="ct"></span>
+      </div>
+      <div class="cov-bot">
+        <div class="pwrap" id="pw">
+          <div class="ptrack"><div class="pbuf" id="pb"></div><div class="pfill" id="pf"></div></div>
+          <div class="pthumb" id="pt"></div>
+        </div>
+        <div class="crow">
+          <button class="cb" id="pbtn" onclick="_tp()">
+            <svg id="pico" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          <button class="cb" onclick="_sk(-10)"><svg width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2.5 12a9.5 9.5 0 1 1 1 4"/><polyline points="2 6 2.5 12 8 12"/><text x="8" y="15.5" font-size="6" fill="currentColor" stroke="none" font-weight="700">10</text></svg></button>
+          <button class="cb" onclick="_sk(10)"><svg width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 12a9.5 9.5 0 1 0-1 4"/><polyline points="22 6 21.5 12 16 12"/><text x="8" y="15.5" font-size="6" fill="currentColor" stroke="none" font-weight="700">10</text></svg></button>
+          <span class="tdis" id="td">0:00 / 0:00</span>
+          <div class="csep"></div>
+          <div class="vwrap">
+            <button class="cb" onclick="_mv()"><svg id="vi" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+            <input type="range" class="vsl" id="vs" min="0" max="1" step="0.05" value="1" oninput="_sv(this.value)">
+          </div>
+          <div class="cright">
+            <button class="cb" id="sgbtn" onclick="_tgs(event)">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            </button>
+            <div class="spanel" id="sp">
+              <div class="sp-page on" id="spm">
+                <div class="sp-row" onclick="_sgo('spq')">
+                  <div class="sp-row-ico"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+                  <div class="sp-row-body"><div class="sp-row-label">Quality</div><div class="sp-row-val" id="cur-q">—</div></div>
+                  <span class="sp-row-arr">›</span>
+                </div>
+                <div class="sp-row" onclick="_sgo('sps')">
+                  <div class="sp-row-ico"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                  <div class="sp-row-body"><div class="sp-row-label">Playback Speed</div><div class="sp-row-val" id="cur-s">Normal</div></div>
+                  <span class="sp-row-arr">›</span>
+                </div>
+              </div>
+              <div class="sp-page" id="spq">
+                <div class="sp-sub-hd" onclick="_sgo('spm')">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+                  <span>Quality</span>
+                </div>
+                <div id="qi"></div>
+              </div>
+              <div class="sp-page" id="sps">
+                <div class="sp-sub-hd" onclick="_sgo('spm')">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+                  <span>Playback Speed</span>
+                </div>
+                <div id="si"></div>
+              </div>
+            </div>
+            <button class="cb" onclick="_fs()">
+              <svg id="fsi" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+!function(){
+var _S='/proxy',_K='',_NK=_K,_H=null,_D=false,_SP=1,_SQ='',_QM={};
+var _B='1';  // current batch key — sent with every video fetch
+var SPEEDS=[0.25,0.5,0.75,1,1.25,1.5,1.75,2];
+var PREF=['1080p','720p','480p','360p','240p','144p'];
+var _v,_co,_sp;
+
+document.addEventListener('DOMContentLoaded',function(){
+  _v=document.getElementById('v');
+  _co=document.getElementById('co');
+  _sp=document.getElementById('sp');
+  _v.addEventListener('timeupdate',_up);
+  _v.addEventListener('progress',_ub);
+  _v.addEventListener('play',function(){_ui(1)});
+  _v.addEventListener('pause',function(){_ui(0)});
+  var pw=document.getElementById('pw');
+  pw.addEventListener('mousedown',function(e){_D=true;_ds(e)});
+  pw.addEventListener('touchstart',function(e){_D=true;_ds(e.touches[0])},{passive:true});
+  document.addEventListener('mousemove',function(e){if(_D)_ds(e)});
+  document.addEventListener('touchmove',function(e){if(_D)_ds(e.touches[0])},{passive:true});
+  document.addEventListener('mouseup',function(){_D=false});
+  document.addEventListener('touchend',function(){_D=false});
+  document.getElementById('ps').addEventListener('mousemove',_sc);
+  document.getElementById('ps').addEventListener('touchstart',function(){_co.classList.contains('vis')?_hc():_sc()},{passive:true});
+  document.getElementById('ps').addEventListener('click',function(e){if(e.target===this||e.target===_v){_co.classList.contains('vis')?_tp():_sc();}});
+  document.addEventListener('fullscreenchange',_onfs);
+  document.addEventListener('keydown',_kd);
+  document.addEventListener('click',function(e){if(!e.target.closest('#sp')&&!e.target.closest('#sgbtn'))_cls_sp();});
+  _bspd();
+});
+
+// XOR+base64url obfuscation matching PHP encVid()
+function _encVid(id){
+  var key='638udh3829162018';var out=[];var b=id+'';
+  for(var i=0;i<b.length;i++)out.push(b.charCodeAt(i)^key.charCodeAt(i%key.length));
+  var bin=String.fromCharCode.apply(null,out);
+  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+window._pv=function(id,title,dur){
+  document.getElementById('ov').classList.add('on');
+  document.getElementById('ct').textContent=title;
+  document.getElementById('pl').classList.remove('gone');
+  document.getElementById('pe').classList.remove('on');
+  document.getElementById('qi').innerHTML='';
+  document.getElementById('cur-q').textContent='—';
+  document.body.style.overflow='hidden';
+  _rp();_sc();_QM={};_SQ='';
+  fetch(_S+'/video?v='+id)
+    .then(function(r){return r.json()})
+    .then(function(d){
+      if(d._nt)_NK=d._nt;
+      // _hls = recording_schedule type — proxy through api.php RolexCoderZ
+      if(d._hls){
+        var tok=d._hls_tok||'';
+        // api.php already sends proxied URL in _hls field for recording_schedule
+        _QM={'HD':d._hls};_bq();_ld(d._hls,'HD');return;
+      }
+      _QM=d.q||{};
+      _bq();
+      var best=_QM['1080p']||_QM['720p']||_QM['480p']||_QM['360p']||Object.values(_QM)[0];
+      if(!best)throw new Error('No stream found');
+      _ld(best,'720p' in _QM?'720p':Object.keys(_QM)[0]);
+    })
+    .catch(function(e){_er(e.message)});
+};
+
+function _bq(){
+  var qi=document.getElementById('qi');qi.innerHTML='';
+  var keys=Object.keys(_QM);
+  var sorted=PREF.filter(function(k){return _QM[k]}).concat(keys.filter(function(k){return PREF.indexOf(k)<0}));
+  if(!sorted.length){qi.innerHTML='<div style="padding:12px 18px;font-size:.75rem;color:var(--t3)">No qualities found</div>';return;}
+  sorted.forEach(function(q,i){
+    var d=document.createElement('div');d.className='sp-opt'+(i===0?' act':'');
+    d.innerHTML='<span>'+q+'</span><div class="sp-opt-chk"></div>';
+    d.onclick=function(){
+      var t=_v.currentTime,p=!_v.paused;
+      qi.querySelectorAll('.sp-opt').forEach(function(x){x.classList.remove('act')});
+      d.classList.add('act');_SQ=q;
+      document.getElementById('cur-q').textContent=q;
+      _cls_sp();
+      // Seamless quality switch — no destroy, just reload source and seek back
+      if(window._hls && Hls.isSupported()){
+        window._hls.loadSource(_QM[q]);
+        window._hls.once(Hls.Events.MANIFEST_PARSED,function(){
+          _v.currentTime=t;
+          _v.playbackRate=_SP;
+          if(p)_v.play().catch(function(){});
+        });
+      } else {
+        _ld(_QM[q],q);
+        if(window._hls)window._hls.once(Hls.Events.MANIFEST_PARSED,function(){_v.currentTime=t;if(p)_v.play().catch(function(){})});
+      }
+    };
+    qi.appendChild(d);
+  });
+  _SQ=sorted[0];document.getElementById('cur-q').textContent=sorted[0];
+}
+
+function _bspd(){
+  var si=document.getElementById('si');
+  SPEEDS.forEach(function(s){
+    var d=document.createElement('div');d.className='sp-opt'+(s===1?' act':'');
+    var lbl=s===1?'Normal':s+'×';
+    d.innerHTML='<span>'+lbl+'</span><div class="sp-opt-chk"></div>';
+    d.onclick=function(){
+      _SP=s;_v.playbackRate=s;
+      si.querySelectorAll('.sp-opt').forEach(function(x){x.classList.remove('act')});
+      d.classList.add('act');
+      document.getElementById('cur-s').textContent=lbl;
+      _cls_sp();
+    };
+    si.appendChild(d);
+  });
+}
+
+function _ld(url,q){
+  document.getElementById('pl').classList.remove('gone');
+  document.getElementById('pe').classList.remove('on');
+  if(window._hls){window._hls.destroy();window._hls=null;}
+  if(Hls.isSupported()){
+    window._hls=new Hls({enableWorker:true,lowLatencyMode:false,maxBufferLength:60,maxMaxBufferLength:120,maxBufferHole:0.5,fragLoadingTimeOut:20000,manifestLoadingTimeOut:10000,levelLoadingTimeOut:10000,startFragPrefetch:true,testBandwidth:false});
+    window._hls.loadSource(url);window._hls.attachMedia(_v);
+    window._hls.on(Hls.Events.MANIFEST_PARSED,function(){document.getElementById('pl').classList.add('gone');_v.playbackRate=_SP;_v.play().catch(function(){})});
+    window._hls.on(Hls.Events.ERROR,function(_,d){if(d.fatal)_er(d.details||d.type)});
+  }else if(_v.canPlayType('application/vnd.apple.mpegurl')){
+    _v.src=url;_v.addEventListener('loadedmetadata',function(){document.getElementById('pl').classList.add('gone');_v.playbackRate=_SP;_v.play().catch(function(){})},{once:true});
+  }else _er('HLS not supported');
+}
+
+function _er(m){document.getElementById('pl').classList.add('gone');document.getElementById('pe').classList.add('on');document.getElementById('pm').textContent=m;}
+
+window._cp=function(){
+  document.getElementById('ov').classList.remove('on');
+  _v.pause();_v.src='';if(window._hls){window._hls.destroy();window._hls=null;}
+  document.body.style.overflow='';_cls_sp();
+  if(document.fullscreenElement)document.exitFullscreen();
+};
+
+function _sc(){_co.classList.add('vis');clearTimeout(_H);_H=setTimeout(_hc,3200);}
+function _hc(){if(!_v.paused)_co.classList.remove('vis');}
+
+function _kd(e){
+  if(!document.getElementById('ov').classList.contains('on'))return;
+  if(['INPUT','TEXTAREA'].includes(e.target.tagName))return;
+  var k=e.key;
+  if(k===' '||k==='k'){e.preventDefault();_tp();}
+  else if(k==='ArrowRight'){e.preventDefault();_sk(10);}
+  else if(k==='ArrowLeft'){e.preventDefault();_sk(-10);}
+  else if(k==='ArrowUp'){e.preventDefault();_sv(Math.min(1,_v.volume+.1));}
+  else if(k==='ArrowDown'){e.preventDefault();_sv(Math.max(0,_v.volume-.1));}
+  else if(k==='f'||k==='F')_fs();
+  else if(k==='Escape'){if(_sp.classList.contains('on'))_cls_sp();else _cp();}
+  _sc();
+}
+
+function _ds(e){var pw=document.getElementById('pw'),r=pw.getBoundingClientRect(),p=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));if(_v.duration)_v.currentTime=p*_v.duration;_up();}
+function _up(){var c=_v.currentTime,t=_v.duration||0,p=t?c/t:0;document.getElementById('pf').style.width=(p*100)+'%';document.getElementById('pt').style.left=(p*100)+'%';document.getElementById('td').textContent=_fmt(c)+' / '+_fmt(t);}
+function _ub(){try{var b=_v.buffered,t=_v.duration||0;if(b.length&&t)document.getElementById('pb').style.width=((b.end(b.length-1)/t)*100)+'%';}catch(e){}}
+function _ui(pl){document.getElementById('pico').innerHTML=pl?'<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>':'<polygon points="5 3 19 12 5 21 5 3"/>';if(!pl)_sc();}
+function _rp(){document.getElementById('pf').style.width='0';document.getElementById('pb').style.width='0';document.getElementById('pt').style.left='0';document.getElementById('td').textContent='0:00 / 0:00';}
+function _fmt(s){if(!s||isNaN(s))return'0:00';var m=Math.floor(s/60),x=Math.floor(s%60);return m+':'+(x<10?'0':'')+x;}
+
+window._tp=function(){_sc();_v.paused?_v.play().catch(function(){}):_v.pause();};
+window._sk=function(s){_sc();_v.currentTime=Math.max(0,Math.min(_v.duration||0,_v.currentTime+s));};
+window._sv=function(v){v=parseFloat(v);_v.volume=v;_v.muted=v===0;document.getElementById('vs').value=v;};
+window._mv=function(){_v.muted=!_v.muted;document.getElementById('vs').value=_v.muted?0:_v.volume;};
+window._fs=function(){var ov=document.getElementById('ov');if(!document.fullscreenElement)ov.requestFullscreen().catch(function(){});else document.exitFullscreen();};
+window._tgs=function(e){e.stopPropagation();_sp.classList.toggle('on');if(_sp.classList.contains('on'))_sgo('spm');};
+window._sgo=function(id){document.querySelectorAll('.sp-page').forEach(function(p){p.classList.remove('on')});document.getElementById(id).classList.add('on');};
+function _cls_sp(){_sp.classList.remove('on');}
+
+function _onfs(){var i=document.getElementById('fsi');if(document.fullscreenElement)i.innerHTML='<path d="M8 3v3a2 2 0 01-2 2H3m18 0h-3a2 2 0 01-2-2V3m0 18v-3a2 2 0 012-2h3M3 16h3a2 2 0 012 2v3"/>';else i.innerHTML='<path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/>';}
+
+window._dp=function(videoId,title){
+  // Legacy fallback — video_id wala path
+  if(!videoId){alert('PDF unavailable');return;}
+  var courseId="35";
+  var base=_S;
+  var a=document.createElement('a');
+  a.href=base+'/pdf-legacy'
+        +'?video_id='+encodeURIComponent(videoId)
+        +'&course_id='+encodeURIComponent(courseId)
+        +'&title='+encodeURIComponent(title||'document');
+  a.target='_blank';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+};
+
+window._dp2=function(el){
+  // Route through server proxy (pdfurl action) to bypass CORS on signed CDN URL
+  var tok   = el.dataset.token || '';
+  var title = el.dataset.title || 'document';
+  if(!tok){alert('PDF unavailable');return;}
+  var base = _S;
+  var a = document.createElement('a');
+  a.href = base + '/pdf'
+         + '?t='     + encodeURIComponent(tok)
+         + '&title=' + encodeURIComponent(title);
+  a.target = '_blank';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+};
+
+// ── LIVE CLASS PLAYER ──
+// Takes pre-decrypted quality map {quality: url} from server
+window._plive=function(qmap,title){
+  var urls=qmap||{};
+  // Pick best quality
+  var order=['High Quality','HD','Medium Quality','Low Quality'];
+  var best=null;
+  for(var i=0;i<order.length;i++){if(urls[order[i]]){best=urls[order[i]];break;}}
+  if(!best){var vals=Object.values(urls);if(vals.length)best=vals[0];}
+  if(!best){alert('Stream not available right now');return;}
+  document.getElementById('ov').classList.add('on');
+  document.getElementById('ct').textContent=title;
+  document.getElementById('pl').classList.remove('gone');
+  document.getElementById('pe').classList.remove('on');
+  document.getElementById('qi').innerHTML='';
+  document.getElementById('cur-q').textContent='—';
+  document.body.style.overflow='hidden';
+  _rp();_sc();_QM={};_SQ='';
+  // Populate quality map for the quality switcher
+  _QM=urls;
+  _bq();
+  _ld(best,Object.keys(urls)[0]||'HD');
+};
+
+// ── COUNTDOWN TIMERS ──
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.countdown-bar').forEach(function(el){
+    var ts=parseInt(el.getAttribute('data-ts'),10)*1000;
+    function tick(){
+      var diff=ts-Date.now();
+      if(diff<=0){el.textContent='Starting soon…';return;}
+      var h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+      el.textContent=(h?h+'h ':'')+pad(m)+'m '+pad(s)+'s left';
+      setTimeout(tick,1000);
+    }
+    function pad(n){return n<10?'0'+n:''+n;}
+    tick();
+  });
+});
+
+document.addEventListener('contextmenu',function(e){e.preventDefault()});
+document.addEventListener('keydown',function(e){
+  if((e.ctrlKey||e.metaKey)&&'usp'.includes(e.key.toLowerCase()))e.preventDefault();
+  if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&'ijc'.includes(e.key.toLowerCase())))e.preventDefault();
+  if(document.getElementById('lbx').classList.contains('on')){
+    if(e.key==='ArrowRight')_lbxn(1);
+    else if(e.key==='ArrowLeft')_lbxn(-1);
+    else if(e.key==='Escape')_clbx();
+  }
+});
+
+// ── LIGHTBOX ──
+var _IMGS=[{"title":"Notice","src":"https:\/\/appx-content-v2.classx.co.in\/paid_course4\/2026-07-28-0_8958335982355342.jpeg"},{"title":"11th Class Weekly Time-Table","src":"https:\/\/appx-content-v2.classx.co.in\/paid_course4\/2026-06-05-0.031020959377007995.jpeg"},{"title":"11th Class Weekly Time-Table","src":"https:\/\/appx-content-v2.classx.co.in\/paid_course4\/2026-07-18-0.6541777519621695.jpeg"}];
+var _LI=0;
+window._oi=function(idx){
+  if(!_IMGS.length)return;
+  _LI=idx;_lbxsh();
+  document.getElementById('lbx').classList.add('on');
+  document.body.style.overflow='hidden';
+};
+function _lbxsh(){
+  var im=_IMGS[_LI];
+  document.getElementById('lbx-img').src=im.src;
+  document.getElementById('lbx-title').textContent=im.title;
+  document.getElementById('lbx-counter').textContent=(_LI+1)+' / '+_IMGS.length;
+  var prev=document.querySelector('.lbx-prev'),next=document.querySelector('.lbx-next');
+  if(prev)prev.style.display=_IMGS.length>1?'flex':'none';
+  if(next)next.style.display=_IMGS.length>1?'flex':'none';
+}
+window._lbxn=function(d){_LI=(_LI+d+_IMGS.length)%_IMGS.length;_lbxsh();};
+window._clbx=function(){document.getElementById('lbx').classList.remove('on');document.body.style.overflow='';};
+window._lbxbg=function(e){if(e.target===document.getElementById('lbx'))_clbx();};
+
+// Valence mirror: refresh per-session PDF tokens via local proxy
+function _syncTokens(){
+  fetch(_S+'/sync').then(function(r){return r.json()}).then(function(d){
+    if(d && d.tokens){
+      document.querySelectorAll('[data-token]').forEach(function(el,i){
+        if(d.tokens[i]) el.dataset.token=d.tokens[i];
+      });
+    }
+  }).catch(function(){});
+}
+_syncTokens();
+}();
+</script>
+</body>
+</html>

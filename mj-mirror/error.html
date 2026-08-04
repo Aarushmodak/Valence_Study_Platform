@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23f9e7b3'/><stop offset='0.55' stop-color='%23d4af37'/><stop offset='1' stop-color='%237a5d15'/></linearGradient></defs><path d='M32 4L56 24L32 60L8 24Z' fill='url(%23g)'/><path d='M8 24H56M32 4V60' stroke='rgba(255,255,255,0.45)' stroke-width='1.4'/><path d='M24 28L32 46L40 28' stroke='%23121008' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+    <title>Valence | Admin Panel</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            /* Smooth background */
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    
+        .brand-gold{font-family:'Cinzel',serif;font-weight:800;letter-spacing:.14em;background:linear-gradient(110deg,#f9e7b3,#fff8e0 45%,#d4af37 70%,#f9e7b3);background-size:220%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:brandShine 6s linear infinite}
+        @keyframes brandShine{to{background-position:220% center}}
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen selection:bg-yellow-300">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-yellow-400 text-gray-900 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <!-- Fake Logo -->
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    <span class="font-bold text-xl tracking-tight">Valence Admin</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-sm font-medium">Welcome, SuperAdmin</span>
+                    <div class="w-8 h-8 bg-gray-800 rounded-full text-white flex items-center justify-center font-bold text-sm">
+                        SA
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden border border-gray-100">
+            <!-- Card Header -->
+            <div class="bg-gray-50 border-b border-gray-100 p-6 text-center">
+                <h2 class="text-2xl font-bold text-gray-800">Student Database</h2>
+                <p class="text-gray-500 text-sm mt-1">Access restricted to authorized personnel only.</p>
+            </div>
+            
+            <!-- Card Body -->
+            <div class="p-8 text-center space-y-6">
+                
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded text-left">
+                    <p class="text-sm text-yellow-700 font-medium">
+                        âš ï¸ Warning: You are about to access sensitive user data. All actions are logged.
+                    </p>
+                </div>
+
+                <div class="space-y-4 pt-4">
+                    <p class="text-gray-600 font-medium">Click below to fetch the latest records.</p>
+                    
+                    <!-- The Trap Button -->
+                    <button id="showDataBtn" class="w-full flex justify-center items-center gap-2 bg-gray-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                        </svg>
+                        <span id="btnText">Show Data</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Card Footer -->
+            <div class="bg-gray-50 p-4 text-center border-t border-gray-100">
+                <p class="text-xs text-gray-400">© 2026 Valence Education. Server: Asia-South1</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Audio Element (Hidden) -->
+    <audio id="troll-audio" src="https://files.catbox.moe/3mozcy.mp3" preload="auto" loop></audio>
+
+    <script>
+        const audio = document.getElementById('troll-audio');
+        const showDataBtn = document.getElementById('showDataBtn');
+        const btnText = document.getElementById('btnText');
+
+        // Button click event - triggers the audio and fakes a loading state
+        showDataBtn.addEventListener('click', function() {
+            // Play the audio
+            audio.play().catch(err => {
+                console.error("Audio block: ", err);
+            });
+
+            // Make the button look like it's loading to keep the user waiting
+            showDataBtn.classList.remove('bg-gray-900', 'hover:bg-black');
+            showDataBtn.classList.add('bg-yellow-500', 'hover:bg-yellow-600', 'cursor-wait');
+            
+            // Swap icon to a loading spinner
+            showDataBtn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Fetching Records...</span>
+            `;
+
+            // Disable button so they can't click it again easily
+            showDataBtn.disabled = true;
+        });
+
+        // --- Anti-Inspect Code (Kept from your original script) ---
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function (e) {
+            // Prevent F12
+            if (e.keyCode == 123) return false; 
+            // Prevent Ctrl+Shift+I, J, C
+            if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) return false; 
+            // Prevent Ctrl+U
+            if (e.ctrlKey && (e.keyCode == 85)) return false; 
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Valence — Select Batch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Cinzel:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05050a;--bg1:#0a0a12;--bg2:#0e0e1a;
+  --s1:#111120;--s2:#16162a;--s3:#1c1c34;
+  --b1:#202038;--b2:#2a2a48;
+  --acc:#d4af37;--acc2:#f9e7b3;--acc3:#fff8e0;
+  --grn:#34d399;--t1:#eeeeff;--t2:#9898c0;--t3:#565680;
+  --r:16px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:'Sora',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-user-select:none;user-select:none}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;height:62px;display:flex;align-items:center;padding:0 32px;gap:14px;
+  background:rgba(5,5,10,.92);backdrop-filter:blur(28px);border-bottom:1px solid var(--b1)}
+.nlogo{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.1rem;color:var(--t1);text-decoration:none;letter-spacing:-.03em}
+.nmark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:.9rem;box-shadow:0 0 22px rgba(124,111,255,.5)}
+.nbadge{margin-left:auto;font-size:.58rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);border:1px solid var(--b1);padding:5px 13px;border-radius:20px;background:var(--s1)}
+
+/* HERO */
+.hero{position:relative;padding:80px 32px 64px;overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 60% at 20% 40%,rgba(212,175,55,.14) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 80% 60%,rgba(249,231,179,.08) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 70% at 50% 0%,rgba(249,231,179,.10) 0%,transparent 60%)}
+.hero-dots{position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(212,175,55,.14) 1px,transparent 1px);
+  background-size:30px 30px;
+  mask-image:radial-gradient(ellipse 80% 90% at 50% 50%,black 0%,transparent 70%)}
+.hero-in{position:relative;z-index:1;max-width:680px;margin:0 auto}
+.hero-eye{display:inline-flex;align-items:center;gap:8px;font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--acc2);background:rgba(124,111,255,.08);border:1px solid rgba(124,111,255,.2);padding:6px 16px;border-radius:20px;margin-bottom:22px}
+.hero-eye::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--grn);box-shadow:0 0 10px var(--grn);animation:gl 2s ease-in-out infinite}
+@keyframes gl{0%,100%{opacity:1}50%{opacity:.2}}
+.hero-h1{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;line-height:1.05;letter-spacing:-.04em;margin-bottom:16px}
+.hero-h1 mark{background:none;background:linear-gradient(135deg,var(--acc),var(--acc2),var(--acc3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1rem;color:var(--t2);font-weight:400;line-height:1.6;max-width:480px;margin:0 auto}
+
+/* BATCH GRID */
+.batch-section{padding:0 32px 100px;max-width:960px;margin:0 auto}
+.batch-label{font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.batch-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--b1),transparent)}
+.batch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
+
+/* BATCH CARD */
+.bcard{
+  background:var(--s1);border:1px solid var(--b1);border-radius:20px;
+  overflow:hidden;transition:all .3s;cursor:pointer;
+  text-decoration:none;color:inherit;display:block;
+  position:relative;
+}
+.bcard:hover{border-color:var(--b2);transform:translateY(-8px);box-shadow:0 32px 80px rgba(0,0,0,.8),0 0 0 1px rgba(212,175,55,.35)}
+.bcard-img{width:100%;aspect-ratio:16/9;overflow:hidden;position:relative;background:var(--s2)}
+.bcard-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;pointer-events:none}
+.bcard:hover .bcard-img img{transform:scale(1.06)}
+.bcard-img-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,10,.85) 0%,rgba(5,5,10,.1) 50%,transparent 100%)}
+.bcard-badge{position:absolute;top:14px;right:14px;font-size:.57rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px;border-radius:8px;backdrop-filter:blur(8px)}
+.bcard-body{padding:22px 22px 20px}
+.bcard-name{font-size:1.15rem;font-weight:700;letter-spacing:-.02em;color:var(--t1);margin-bottom:8px;line-height:1.25}
+.bcard-sub{font-size:.74rem;color:var(--t3);margin-bottom:20px;display:flex;align-items:center;gap:6px}
+.bcard-sub::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--grn);flex-shrink:0}
+.bcard-btn{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;padding:13px 20px;border-radius:12px;border:none;cursor:pointer;
+  font-family:'Sora',sans-serif;font-size:.88rem;font-weight:700;letter-spacing:-.01em;
+  transition:all .22s;
+}
+.bcard-btn svg{transition:transform .22s}
+.bcard:hover .bcard-btn svg{transform:translateX(4px)}
+
+/* FOOTER */
+.footer{text-align:center;padding:24px;font-size:.65rem;color:var(--t3);border-top:1px solid var(--b1)}
+
+@media(max-width:600px){
+  .hero{padding:50px 20px 44px}
+  .batch-section{padding:0 16px 70px}
+  .batch-grid{grid-template-columns:1fr}
+  .nav{padding:0 18px}
+}
+/* Fade-in animation */
+.fi{animation:fi .4s ease both}
+@keyframes fi{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fi:nth-child(1){animation-delay:.05s}
+.fi:nth-child(2){animation-delay:.15s}
+
+.nb-gold{font-family:'Cinzel',serif;font-weight:800;letter-spacing:.1em;background:linear-gradient(110deg,#f9e7b3,#fff8e0 45%,#d4af37 70%,#f9e7b3);background-size:220%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:brandShine 6s linear infinite}
+@keyframes brandShine{to{background-position:220% center}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nlogo">
+    <div class="nmark" style="padding:6px;background:linear-gradient(135deg,#f9e7b3,#d4af37)"><svg viewBox="0 0 48 56" fill="none" width="100%" height="100%"><path d="M24 2L42 18L24 54L6 18Z" fill="url(#nk)" stroke="rgba(249,231,179,.9)" stroke-width="1"/><path d="M17 23L24 41L31 23" stroke="#120d02" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="nk" x1="6" y1="2" x2="42" y2="54"><stop offset="0" stop-color="#f9e7b3"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8a6d1f"/></linearGradient></defs></svg></div><span class="nb-gold">Valence</span>
+  </a>
+  <span class="nbadge">Vibrant Academy</span>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-in">
+    <div class="hero-eye">Your Batches</div>
+    <h1 class="hero-h1">Select Your <mark>Batch</mark></h1>
+    <p class="hero-sub">Choose a batch below to access your videos, PDFs and study material.</p>
+  </div>
+</div>
+
+<div class="batch-section">
+  <div class="batch-label">Available Batches</div>
+  <div class="batch-grid">
+
+        <a href="/content?f=3929" class="bcard fi">
+      <div class="bcard-img">
+        <img src="https://appx-content-v2.classx.co.in/paid_course3/2026-03-20-0_7755858005992874.jpeg" alt="Class 11th OG Kota Batch" loading="lazy">
+        <div class="bcard-img-ov"></div>
+        <div class="bcard-badge" style="background:rgba(0,0,0,.55);color:#f9e7b3;border:1px solid rgba(212,175,55,.4)">
+          Batch 1        </div>
+      </div>
+      <div class="bcard-body">
+        <div class="bcard-name">Class 11th OG Kota Batch</div>
+        <div class="bcard-sub">Vibrant Academy · Kota</div>
+        <button class="bcard-btn" style="background:linear-gradient(135deg,#f9e7b3,#d4af37);color:#1c1506;box-shadow:0 8px 28px rgba(212,175,55,.4)">
+          Let's Study
+          <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </a>
+    
+  </div>
+</div>
+
+<div class="footer">Valence &nbsp;·&nbsp; Powered by Vibrant Academy</div>
+</body>
+</html>

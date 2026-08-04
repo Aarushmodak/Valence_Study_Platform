@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valence — The Golden Standard of Study</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 56'%3E%3Cpath d='M24 2L42 18L24 54L6 18Z' fill='%23d4af37'/%3E%3Cpath d='M16 22L24 42L32 22' stroke='%23050408' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050508; --bg2:#0a0a10; --bg3:#101018;
+  --g1:#f9e7b3; --g2:#e9c46a; --g3:#d4af37; --g4:#b8860b; --g5:#7a5d15;
+  --tx:#f5ead2; --tx2:#cdbb8c; --tx3:#8f7f58;
+  --glass:rgba(255,255,255,.05);
+  --brd:rgba(255,215,130,.22);
+  --serif:'Cinzel',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--tx);
+  overflow-x:hidden;
+  line-height:1.6;
+}
+::selection{background:rgba(212,175,55,.35);color:#fff}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:#07070b}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#7a5d15,#d4af37);border-radius:8px}
+
+/* ============ GLASS ============ */
+.glass{
+  position:relative;
+  background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.015)) padding-box,
+             linear-gradient(150deg,rgba(255,215,130,.55),rgba(255,255,255,.05) 42%,rgba(212,175,55,.4)) border-box;
+  border:1px solid transparent;
+  backdrop-filter:blur(18px) saturate(150%);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);
+  border-radius:22px;
+  overflow:hidden;
+}
+.glass::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.10),transparent 26%);
+}
+.glass::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(340px circle at var(--mx,50%) var(--my,0%),rgba(212,175,55,.10),transparent 65%);
+  opacity:0;transition:opacity .4s;
+}
+.glass:hover::after{opacity:1}
+
+/* ============ LOADER ============ */
+.loader{
+  position:fixed;inset:0;z-index:1000;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
+  transition:opacity .6s,visibility .6s;
+}
+.loader.done{opacity:0;visibility:hidden}
+.loader .diamond-mini{animation:spinSlow 2.6s linear infinite}
+.loader .l-name{font-family:var(--serif);font-size:1.5rem;letter-spacing:.5em;color:var(--g2);padding-left:.5em}
+.loader .track{width:220px;height:2px;background:rgba(255,215,130,.12);border-radius:2px;overflow:hidden}
+.loader .bar{height:100%;width:0%;background:linear-gradient(90deg,#7a5d15,#f9e7b3,#d4af37);border-radius:2px;box-shadow:0 0 14px rgba(212,175,55,.7)}
+.loader .pct{font-family:var(--serif);font-size:.85rem;letter-spacing:.3em;color:var(--tx3)}
+
+/* ============ PROGRESS ============ */
+#progress{
+  position:fixed;top:0;left:0;height:2px;width:0;z-index:900;
+  background:linear-gradient(90deg,#b8860b,#f9e7b3,#d4af37,#f9e7b3);
+  box-shadow:0 0 12px rgba(212,175,55,.8);
+}
+
+/* ============ ATMOSPHERE ============ */
+#scene{position:fixed;inset:0;z-index:0;pointer-events:none}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 50% 10%,transparent 40%,rgba(0,0,0,.55) 100%)}
+.blob{position:fixed;border-radius:50%;filter:blur(110px);z-index:0;pointer-events:none;opacity:.5}
+.blob.a{width:560px;height:560px;top:-180px;left:-140px;background:radial-gradient(circle,rgba(212,175,55,.28),transparent 65%);animation:drift 18s ease-in-out infinite alternate}
+.blob.b{width:640px;height:640px;bottom:-220px;right:-160px;background:radial-gradient(circle,rgba(184,134,11,.22),transparent 65%);animation:drift 22s ease-in-out infinite alternate-reverse}
+.blob.c{width:420px;height:420px;top:38%;left:58%;background:radial-gradient(circle,rgba(249,231,179,.12),transparent 65%);animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(70px,50px) scale(1.15)}}
+
+#cursorGlow{
+  position:fixed;width:420px;height:420px;border-radius:50%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(212,175,55,.10),transparent 60%);
+  transform:translate(-50%,-50%);left:0;top:0;
+  transition:opacity .3s;
+}
+@media (pointer:coarse){#cursorGlow{display:none}}
+
+/* ============ NAV ============ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 40px;
+  transition:padding .4s var(--ease),background .4s,border-color .4s,backdrop-filter .4s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  padding:12px 40px;
+  background:rgba(8,8,12,.62);
+  backdrop-filter:blur(20px) saturate(150%);
+  -webkit-backdrop-filter:blur(20px) saturate(150%);
+  border-bottom-color:rgba(255,215,130,.14);
+}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.v-mark{display:grid;place-items:center;filter:drop-shadow(0 0 12px rgba(212,175,55,.55))}
+.logo b{color:var(--g3)}
+.logo-name{
+  font-family:var(--serif);font-weight:800;font-size:1.3rem;letter-spacing:.28em;color:var(--g1);
+  background:linear-gradient(110deg,#f9e7b3,#fff8e0 45%,#d4af37 70%,#f9e7b3);
+  background-size:220%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shine 6s linear infinite;
+}
+.nav-links{display:flex;gap:8px;list-style:none}
+.nav-links a{
+  position:relative;color:var(--tx2);text-decoration:none;font-size:.92rem;font-weight:500;
+  padding:8px 14px;border-radius:10px;transition:color .3s;
+}
+.nav-links a::after{
+  content:'';position:absolute;left:14px;right:14px;bottom:4px;height:1px;
+  background:linear-gradient(90deg,transparent,#d4af37,transparent);
+  transform:scaleX(0);transition:transform .35s var(--ease);
+}
+.nav-links a:hover{color:var(--g1)}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+.nav-links a.active{color:var(--g1)}
+.nav-cta{
+  text-decoration:none;font-weight:600;font-size:.9rem;color:#1c1506;
+  padding:10px 22px;border-radius:999px;
+  background:linear-gradient(120deg,#f9e7b3,#d4af37 55%,#b8860b);
+  box-shadow:0 6px 24px rgba(212,175,55,.35);
+  position:relative;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(212,175,55,.5)}
+.nav-cta::after,.btn::after{
+  content:'';position:absolute;top:0;bottom:0;width:46%;left:-70%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);
+  transform:skewX(-22deg);animation:sheen 4.2s ease-in-out infinite;
+}
+@keyframes sheen{0%{left:-70%}55%{left:130%}100%{left:130%}}
+.burger{
+  display:none;background:none;border:none;cursor:pointer;padding:10px;z-index:810;
+}
+.burger span{display:block;width:24px;height:2px;background:var(--g2);margin:5px 0;border-radius:2px;transition:transform .35s var(--ease)}
+#mobileMenu{
+  position:fixed;top:0;right:0;bottom:0;width:min(320px,84vw);z-index:805;
+  background:rgba(9,9,14,.9);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-left:1px solid var(--brd);
+  display:flex;flex-direction:column;gap:6px;padding:100px 30px 30px;
+  transform:translateX(105%);transition:transform .5s var(--ease);
+}
+#mobileMenu.open{transform:translateX(0)}
+#mobileMenu a{color:var(--tx2);text-decoration:none;font-size:1.05rem;padding:12px 6px;border-bottom:1px solid rgba(255,215,130,.08);transition:color .3s}
+#mobileMenu a:hover{color:var(--g1)}
+
+/* ============ SHARED SECTION ============ */
+main{position:relative;z-index:2}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+section{padding:110px 0}
+.overline{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--serif);font-size:.72rem;letter-spacing:.42em;color:var(--g3);
+  text-transform:uppercase;margin-bottom:20px;
+}
+.overline .dia{width:11px;height:11px;background:linear-gradient(135deg,#f9e7b3,#b8860b);transform:rotate(45deg);box-shadow:0 0 14px rgba(212,175,55,.7);animation:pulseDia 2.4s ease-in-out infinite}
+.overline .line{flex:1;max-width:220px;height:1px;background:linear-gradient(90deg,rgba(212,175,55,.6),transparent);position:relative;overflow:hidden}
+.overline .line::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#fff8e0,transparent);transform:translateX(-100%);animation:lineSweep 3.4s ease-in-out infinite}
+@keyframes lineSweep{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+.sec-title{
+  font-family:var(--serif);font-weight:800;font-size:clamp(2rem,4.6vw,3.3rem);
+  line-height:1.14;letter-spacing:.02em;margin-bottom:18px;
+}
+.sec-title.center{text-align:center}
+.sec-title .center-wrap{display:block}
+.sec-sub{color:var(--tx2);font-size:1.06rem;max-width:640px;margin-bottom:54px;font-weight:300}
+.sec-sub.center{margin-left:auto;margin-right:auto;text-align:center}
+.grad{
+  background:linear-gradient(110deg,#f9e7b3 20%,#fff8e0 40%,#d4af37 60%,#f9e7b3 80%);
+  background-size:220%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shine 5.5s linear infinite;
+}
+@keyframes shine{to{background-position:220% center}}
+@keyframes pulseDia{0%,100%{transform:rotate(45deg) scale(1)}50%{transform:rotate(45deg) scale(1.25)}}
+
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(36px);filter:blur(10px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0);filter:blur(0)}
+
+/* ============ BUTTONS ============ */
+.btn{
+  position:relative;display:inline-flex;align-items:center;gap:10px;overflow:hidden;
+  text-decoration:none;font-weight:600;font-size:.98rem;border-radius:999px;
+  padding:15px 34px;transition:transform .35s var(--ease),box-shadow .35s,background .3s;
+}
+.btn.primary{
+  background:linear-gradient(120deg,#f9e7b3,#d4af37 55%,#b8860b);
+  color:#1c1506;
+  box-shadow:0 10px 34px rgba(212,175,55,.4),inset 0 1px 0 rgba(255,255,255,.5);
+}
+.btn.primary:hover{transform:translateY(-3px);box-shadow:0 16px 44px rgba(212,175,55,.55)}
+.btn.ghost{
+  background:rgba(255,255,255,.04);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  color:var(--g1);border:1px solid rgba(255,215,130,.4);
+  box-shadow:inset 0 0 22px rgba(212,175,55,.07);
+}
+.btn.ghost:hover{transform:translateY(-3px);border-color:rgba(249,231,179,.8);box-shadow:inset 0 0 30px rgba(212,175,55,.16),0 10px 30px rgba(212,175,55,.18)}
+.btn .arr{transition:transform .3s var(--ease)}
+.btn:hover .arr{transform:translateX(5px)}
+
+/* ============ HERO ============ */
+.hero{
+  min-height:100vh;display:flex;align-items:center;position:relative;
+  padding:150px 32px 90px;overflow:hidden;
+}
+.hero-inner{max-width:1180px;margin:0 auto;width:100%;text-align:center;position:relative;z-index:3}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--serif);font-size:.74rem;letter-spacing:.44em;text-transform:uppercase;color:var(--g2);
+  padding:10px 26px;border-radius:999px;margin-bottom:34px;
+  background:rgba(255,255,255,.04);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,215,130,.25);
+  animation:fadeUp .9s var(--ease) .15s both;
+}
+.eyebrow .star{width:9px;height:9px;background:var(--g2);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);animation:spinSlow 6s linear infinite}
+.hero h1{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(2.7rem,7vw,5.4rem);
+  line-height:1.08;letter-spacing:.02em;margin-bottom:26px;
+  animation:fadeUp 1s var(--ease) .3s both;
+}
+.hero .sub{
+  max-width:680px;margin:0 auto 40px;color:var(--tx2);font-size:1.12rem;font-weight:300;
+  animation:fadeUp 1s var(--ease) .45s both;
+}
+.hero .sub b{color:var(--g1);font-weight:600}
+.cta-row{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:46px;animation:fadeUp 1s var(--ease) .6s both}
+.platform-strip{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:60px;animation:fadeUp 1s var(--ease) .75s both}
+.p-chip{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:.8rem;letter-spacing:.12em;color:var(--tx2);
+  padding:8px 18px;border-radius:999px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,215,130,.18);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:border-color .3s,transform .3s;
+}
+.p-chip:hover{border-color:rgba(249,231,179,.6);transform:translateY(-2px)}
+.p-chip .dot{width:7px;height:7px;border-radius:50%;box-shadow:0 0 10px currentColor}
+.hero-stats{display:flex;justify-content:center;gap:52px;flex-wrap:wrap;animation:fadeUp 1s var(--ease) .9s both}
+.hero-stats .stat{text-align:center;min-width:130px}
+.hero-stats .num{
+  font-family:var(--serif);font-weight:800;font-size:2.1rem;
+  background:linear-gradient(120deg,#f9e7b3,#d4af37);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-stats .lbl{color:var(--tx3);font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;margin-top:4px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:translateY(0)}}
+
+/* hero diamond */
+.diamond-stage{position:absolute;inset:0;pointer-events:none;z-index:1}
+.diamond-wrap{
+  position:absolute;top:8%;right:6%;width:min(300px,30vw);
+  animation:floaty 7s ease-in-out infinite;
+}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-26px) rotate(5deg)}}
+.diamond-wrap svg{width:100%;height:auto;display:block;filter:drop-shadow(0 0 34px rgba(212,175,55,.35))}
+.diamond-wrap .shine{
+  position:absolute;inset:0;mix-blend-mode:screen;
+  clip-path:polygon(50% 2.5%,91% 31%,50% 98%,9% 31%);
+  background:linear-gradient(115deg,transparent 28%,rgba(255,255,255,.85) 47%,rgba(255,249,224,.4) 52%,transparent 70%);
+  background-size:260% 100%;background-position:120% 0;
+  animation:glint 4.4s ease-in-out infinite;
+}
+@keyframes glint{0%{background-position:120% 0}55%,100%{background-position:-140% 0}}
+.orb{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--g2);box-shadow:0 0 12px 3px rgba(212,175,55,.5);animation:twinkle 2.6s ease-in-out infinite}
+.orb.o1{top:6%;left:16%;animation-delay:.4s}
+.orb.o2{top:46%;right:2%;animation-delay:1s}
+.orb.o3{bottom:10%;left:30%;animation-delay:1.7s}
+.orb.o4{top:22%;right:22%;width:4px;height:4px;animation-delay:.9s}
+.orb.o5{bottom:24%;right:40%;width:5px;height:5px;animation-delay:2s}
+@keyframes twinkle{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.25)}}
+.star4{
+  position:absolute;width:16px;height:16px;
+  background:radial-gradient(circle,#fff8e0,#d4af37 70%);
+  clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);
+  animation:spinSlow 9s linear infinite,floaty 5.5s ease-in-out infinite;
+}
+.star4.s1{top:16%;left:8%;width:11px;height:11px}
+.star4.s2{bottom:22%;right:10%;width:18px;height:18px;animation-duration:12s,7s}
+.star4.s3{top:44%;left:16%;width:8px;height:8px;animation-duration:8s,6s}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+
+.scroll-cue{
+  position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  color:var(--tx3);text-decoration:none;font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;
+  z-index:3;animation:fadeUp 1s var(--ease) 1.2s both;
+}
+.scroll-cue .mouse{width:24px;height:38px;border:1.5px solid rgba(255,215,130,.5);border-radius:14px;position:relative}
+.scroll-cue .mouse::after{
+  content:'';position:absolute;left:50%;top:7px;width:3px;height:7px;border-radius:3px;
+  background:var(--g2);transform:translateX(-50%);animation:wheel 1.8s ease-in-out infinite;
+}
+@keyframes wheel{0%{opacity:1;transform:translate(-50%,0)}70%{opacity:0;transform:translate(-50%,12px)}100%{opacity:0}}
+
+/* ============ MARQUEE ============ */
+.marquee{
+  position:relative;z-index:2;padding:26px 0;overflow:hidden;
+  border-top:1px solid rgba(255,215,130,.12);border-bottom:1px solid rgba(255,215,130,.12);
+  background:linear-gradient(90deg,rgba(212,175,55,.05),transparent 20%,transparent 80%,rgba(212,175,55,.05));
+}
+.marquee .track{display:flex;gap:0;width:max-content;animation:marquee 30s linear infinite}
+.marquee:hover .track{animation-play-state:paused}
+.marquee span{
+  display:inline-flex;align-items:center;gap:26px;padding:0 26px;
+  font-family:var(--serif);font-size:.95rem;letter-spacing:.4em;color:var(--tx2);white-space:nowrap;
+}
+.marquee span .gem{color:var(--g3);font-size:.7rem;animation:pulseDia 2s ease-in-out infinite}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ============ CLASSES ============ */
+.classes-grid{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:34px}
+.class-card{
+  flex:1;min-width:150px;cursor:pointer;position:relative;overflow:hidden;
+  padding:22px 20px;border-radius:18px;text-align:center;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,215,130,.15);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  transition:transform .35s var(--ease),border-color .35s,box-shadow .35s,background .35s;
+}
+.class-card .num{
+  font-family:var(--serif);font-weight:800;font-size:1.9rem;
+  color:var(--tx2);transition:color .35s;
+}
+.class-card .lbl{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--tx3);margin-top:6px;transition:color .35s}
+.class-card:hover{transform:translateY(-5px);border-color:rgba(249,231,179,.55)}
+.class-card.on{
+  background:linear-gradient(140deg,rgba(212,175,55,.22),rgba(212,175,55,.06));
+  border-color:rgba(249,231,179,.75);
+  box-shadow:0 12px 40px rgba(212,175,55,.3),inset 0 0 26px rgba(212,175,55,.12);
+}
+.class-card.on .num,.class-card.on .lbl{color:var(--g1)}
+.class-panel{display:none;padding:40px;margin-top:6px}
+.class-panel.show{display:block;animation:panelIn .6s var(--ease)}
+@keyframes panelIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.class-panel h3{font-family:var(--serif);font-weight:700;font-size:1.35rem;margin-bottom:6px;color:var(--g1)}
+.class-panel .tag{color:var(--tx2);margin-bottom:26px;font-weight:300}
+.class-subjects{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.subject{
+  display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:16px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,215,130,.12);
+  transition:transform .3s var(--ease),border-color .3s,background .3s;
+}
+.subject:hover{transform:translateY(-3px);border-color:rgba(249,231,179,.5);background:rgba(255,255,255,.06)}
+.subject .ic{
+  width:42px;height:42px;flex:none;display:grid;place-items:center;border-radius:12px;
+  background:linear-gradient(140deg,rgba(212,175,55,.2),rgba(212,175,55,.04));
+  border:1px solid rgba(255,215,130,.3);
+}
+.subject .ic svg{width:20px;height:20px;stroke:#e9c46a}
+.subject .s-name{font-weight:600;font-size:.95rem;color:var(--tx)}
+.subject .s-note{font-size:.8rem;color:var(--tx3)}
+
+/* ============ PLATFORMS ============ */
+.platforms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+@media (max-width:960px){.platforms-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto}}
+.platform-card{padding:40px 34px 30px;transition:transform .4s var(--ease),box-shadow .4s;cursor:pointer}
+.platform-card:hover{box-shadow:0 26px 70px rgba(212,175,55,.22),0 0 0 1px rgba(255,215,130,.35)}
+.p-badge{
+  position:absolute;top:20px;right:20px;z-index:2;
+  font-size:.66rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
+  padding:6px 14px;border-radius:999px;color:var(--g3);
+  border:1px solid rgba(255,215,130,.4);background:rgba(212,175,55,.08);
+}
+.emblem{
+  width:74px;height:74px;margin:0 auto 26px;display:grid;place-items:center;
+  font-family:var(--serif);font-weight:800;font-size:1.5rem;color:#1c1506;
+  background:linear-gradient(135deg,#f9e7b3,#d4af37 60%,#9c7c1e);
+  transform:rotate(45deg);border-radius:16px;
+  box-shadow:0 14px 34px rgba(212,175,55,.4),inset 0 1px 0 rgba(255,255,255,.6);
+  transition:transform .5s var(--ease);
+}
+.emblem b{transform:rotate(-45deg)}
+.platform-card:hover .emblem{transform:rotate(45deg) scale(1.12)}
+.platform-card h3{font-family:var(--serif);font-weight:800;font-size:1.6rem;text-align:center;margin-bottom:14px;letter-spacing:.03em}
+.platform-card > p{color:var(--tx2);text-align:center;font-weight:300;font-size:.97rem;margin-bottom:26px;min-height:66px}
+.platform-card ul{list-style:none;display:grid;gap:13px;margin-bottom:30px}
+.platform-card li{display:flex;align-items:center;gap:12px;color:var(--tx2);font-size:.92rem}
+.platform-card li svg{width:17px;height:17px;stroke:#d4af37;flex:none;filter:drop-shadow(0 0 6px rgba(212,175,55,.6))}
+.p-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding-top:22px;border-top:1px solid rgba(255,215,130,.14);
+}
+.p-foot .status{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3)}
+.enter{
+  display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+  font-weight:700;font-size:.9rem;color:#1c1506;
+  padding:11px 22px;border-radius:999px;
+  background:linear-gradient(120deg,#f9e7b3,#d4af37 60%,#b8860b);
+  box-shadow:0 8px 22px rgba(212,175,55,.35);
+  transition:transform .3s var(--ease),box-shadow .3s;
+}
+.enter svg{width:15px;height:15px;stroke:#1c1506}
+.enter:hover{transform:translateY(-2px) translateX(2px);box-shadow:0 12px 30px rgba(212,175,55,.5)}
+
+/* ============ FEATURES ============ */
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media (max-width:1000px){.features-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.features-grid{grid-template-columns:1fr}}
+.feature{padding:30px 26px;transition:transform .35s var(--ease),box-shadow .35s}
+.feature:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(212,175,55,.18)}
+.f-ic{
+  width:52px;height:52px;display:grid;place-items:center;border-radius:14px;margin-bottom:20px;
+  background:linear-gradient(140deg,rgba(212,175,55,.24),rgba(212,175,55,.05));
+  border:1px solid rgba(255,215,130,.35);
+  transition:transform .4s var(--ease),box-shadow .4s;
+}
+.f-ic svg{width:24px;height:24px;stroke:#e9c46a}
+.feature:hover .f-ic{transform:rotate(-8deg) scale(1.1);box-shadow:0 0 24px rgba(212,175,55,.35)}
+.feature h3{font-size:1.08rem;font-weight:700;margin-bottom:10px;color:var(--g1)}
+.feature p{color:var(--tx2);font-size:.9rem;font-weight:300;margin-bottom:16px}
+.feature .tag{
+  display:inline-block;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--g3);padding:5px 12px;border-radius:999px;
+  border:1px solid rgba(255,215,130,.28);background:rgba(212,175,55,.06);
+}
+
+/* ============ HOW ============ */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative}
+@media (max-width:960px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.steps{grid-template-columns:1fr}}
+.step{padding:34px 28px;transition:transform .35s var(--ease),box-shadow .35s}
+.step:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(212,175,55,.18)}
+.s-num{
+  font-family:var(--serif);font-weight:900;font-size:2.6rem;line-height:1;margin-bottom:18px;
+  background:linear-gradient(135deg,#f9e7b3,#b8860b);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.step h3{font-family:var(--serif);font-size:1.12rem;margin-bottom:8px;color:var(--g1)}
+.step p{color:var(--tx2);font-size:.9rem;font-weight:300}
+
+/* ============ BATCHES SOON ============ */
+.soon{padding:70px 50px;text-align:center}
+.soon .big{font-family:var(--serif);font-weight:800;font-size:clamp(1.7rem,4vw,2.6rem);margin-bottom:18px}
+.soon p{max-width:620px;margin:0 auto 34px;color:var(--tx2);font-weight:300}
+.notify-form{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+.notify-form input{
+  width:min(360px,100%);padding:15px 22px;border-radius:999px;outline:none;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,215,130,.3);color:var(--tx);
+  font-family:var(--sans);font-size:.95rem;transition:border-color .3s,box-shadow .3s;
+}
+.notify-form input:focus{border-color:rgba(249,231,179,.8);box-shadow:0 0 0 3px rgba(212,175,55,.15)}
+.mini-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.mini-tags span{
+  font-size:.66rem;letter-spacing:.24em;color:var(--tx3);padding:7px 14px;border-radius:999px;
+  border:1px dashed rgba(255,215,130,.3);
+}
+
+/* ============ PRICING ============ */
+.toggle{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:50px;flex-wrap:wrap}
+.toggle > span{font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+.toggle .pill{
+  display:flex;padding:5px;border-radius:999px;position:relative;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,215,130,.28);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.toggle .pill button{
+  position:relative;z-index:1;border:none;cursor:pointer;background:none;
+  font-family:var(--sans);font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--tx3);padding:10px 24px;border-radius:999px;transition:color .3s;
+}
+.toggle .pill button.on{color:#1c1506}
+.toggle .pill::before{
+  content:'';position:absolute;top:5px;left:5px;bottom:5px;width:calc(50% - 5px);
+  border-radius:999px;
+  background:linear-gradient(120deg,#f9e7b3,#d4af37);
+  box-shadow:0 4px 18px rgba(212,175,55,.45);
+  transition:transform .4s var(--ease);
+}
+.toggle .pill.yr::before{transform:translateX(100%)}
+.toggle .save{
+  padding:6px 16px;border-radius:999px;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:#1c1506;background:linear-gradient(120deg,#f9e7b3,#d4af37);
+  transition:opacity .3s;
+}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch}
+@media (max-width:960px){.pricing-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto}}
+.price-card{padding:44px 36px;display:flex;flex-direction:column;transition:transform .4s var(--ease),box-shadow .4s}
+.price-card:hover{transform:translateY(-8px);box-shadow:0 26px 60px rgba(212,175,55,.2)}
+.price-card.popular{
+  overflow:visible;
+  border:1px solid rgba(249,231,179,.65);
+  box-shadow:0 0 0 1px rgba(249,231,179,.25),0 24px 70px rgba(212,175,55,.28),inset 0 0 40px rgba(212,175,55,.06);
+}
+.price-card.popular::before{
+  content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(160deg,rgba(255,255,255,.5),transparent 30%,transparent 70%,rgba(249,231,179,.6));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:borderSpin 5s linear infinite;
+  background-size:300% 300%;
+}
+@keyframes borderSpin{to{background-position:300% 300%}}
+.hot{
+  position:absolute;top:-15px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  font-size:.68rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;
+  color:#1c1506;padding:7px 20px;border-radius:999px;
+  background:linear-gradient(120deg,#f9e7b3,#d4af37);
+  box-shadow:0 8px 22px rgba(212,175,55,.5);
+  z-index:3;
+}
+.price-card .plan{
+  font-family:var(--serif);font-weight:800;font-size:1.5rem;letter-spacing:.3em;color:var(--g1);margin-bottom:6px;
+}
+.price-card h3{font-size:1rem;font-weight:600;color:var(--tx);margin-bottom:12px}
+.price-card .desc{color:var(--tx3);font-size:.86rem;font-weight:300;margin-bottom:26px}
+.amt{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+.amt .cur{font-family:var(--serif);color:var(--g2);font-weight:700}
+.amt .num{
+  font-family:var(--serif);font-weight:900;font-size:3rem;line-height:1;
+  background:linear-gradient(120deg,#f9e7b3,#d4af37);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.amt .per{color:var(--tx3);font-size:.86rem}
+.strike{font-size:.78rem;color:var(--tx3);margin-bottom:26px}
+.price-card ul{list-style:none;display:grid;gap:12px;margin-bottom:32px;flex:1}
+.price-card li{display:flex;align-items:flex-start;gap:11px;font-size:.9rem;color:var(--tx2)}
+.price-card li svg{width:16px;height:16px;stroke:#d4af37;flex:none;margin-top:4px}
+.price-card li.no{color:var(--tx3);opacity:.55}
+.price-card li.no svg{stroke:var(--tx3)}
+@keyframes riseUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============ TESTIMONIALS ============ */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media (max-width:960px){.testi-grid{grid-template-columns:1fr;max-width:560px;margin:0 auto}}
+.testi{padding:34px 30px;transition:transform .35s var(--ease),box-shadow .35s}
+.testi:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(212,175,55,.18)}
+.stars{display:flex;gap:4px;margin-bottom:18px}
+.stars svg{width:16px;height:16px;fill:#d4af37;filter:drop-shadow(0 0 5px rgba(212,175,55,.7))}
+.testi p{color:var(--tx2);font-weight:300;font-size:.94rem;margin-bottom:24px}
+.who{display:flex;align-items:center;gap:14px}
+.who .av{
+  width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;
+  font-family:var(--serif);font-weight:800;font-size:.85rem;color:#1c1506;
+  background:linear-gradient(135deg,#f9e7b3,#b8860b);
+  box-shadow:0 6px 18px rgba(212,175,55,.4);
+}
+.who .nm{font-weight:600;font-size:.95rem}
+.who .rl{font-size:.78rem;color:var(--tx3)}
+
+/* ============ FAQ ============ */
+.faq-list{max-width:820px;margin:0 auto;display:grid;gap:14px}
+.faq{border-radius:18px;transition:border-color .35s,box-shadow .35s}
+.faq.open{box-shadow:0 16px 44px rgba(212,175,55,.14)}
+.faq .q{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  background:none;border:none;cursor:pointer;text-align:left;
+  font-family:var(--sans);font-size:1.02rem;font-weight:600;color:var(--tx);
+  padding:22px 26px;
+}
+.faq .q .chev{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,215,130,.3)}
+.faq .q .chev svg{width:14px;height:14px;stroke:#d4af37;transition:transform .4s var(--ease)}
+.faq.open .q .chev svg{transform:rotate(180deg)}
+.faq .a{max-height:0;overflow:hidden;transition:max-height .5s var(--ease)}
+.faq .a p{padding:0 26px 24px;color:var(--tx2);font-weight:300;font-size:.94rem}
+
+/* ============ CTA ============ */
+#cta{padding-bottom:140px}
+.cta-band{padding:90px 60px;text-align:center;position:relative;overflow:hidden}
+.cta-band::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(560px circle at 50% -20%,rgba(212,175,55,.2),transparent 70%)}
+.cta-band .d-float{position:absolute;pointer-events:none}
+.cta-band h2{font-family:var(--serif);font-weight:900;font-size:clamp(2rem,5vw,3.4rem);line-height:1.15;margin-bottom:18px}
+.cta-band p{max-width:600px;margin:0 auto 38px;color:var(--tx2);font-weight:300}
+
+/* ============ FOOTER ============ */
+footer{
+  position:relative;z-index:2;padding:80px 32px 30px;
+  border-top:1px solid rgba(255,215,130,.16);
+  background:linear-gradient(180deg,transparent,rgba(212,175,55,.04));
+}
+.foot-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;margin-bottom:50px}
+@media (max-width:960px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.foot-grid{grid-template-columns:1fr}}
+.foot-brand p{color:var(--tx3);font-size:.9rem;font-weight:300;margin-top:16px;max-width:300px}
+.foot-col h4{
+  font-family:var(--serif);font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--g2);margin-bottom:18px;
+}
+.foot-col a{display:block;color:var(--tx3);text-decoration:none;font-size:.9rem;padding:6px 0;transition:color .3s,transform .3s}
+.foot-col a:hover{color:var(--g1);transform:translateX(4px)}
+.foot-col span{display:block;color:var(--tx3);font-size:.85rem;padding:6px 0}
+.tree{font-family:'Consolas',monospace;font-size:.78rem;color:var(--tx3);line-height:1.85}
+.t-root{color:var(--g2);font-weight:700}
+.foot-bottom{
+  max-width:1180px;margin:0 auto;padding-top:26px;border-top:1px solid rgba(255,215,130,.1);
+  text-align:center;color:var(--tx3);font-size:.82rem;
+}
+.foot-bottom b{color:var(--g2)}
+
+/* ============ TYPEWRITER ============ */
+.type-line{
+  margin:0 auto 32px;display:flex;align-items:center;justify-content:center;gap:11px;flex-wrap:wrap;
+  font-size:clamp(1.05rem,2.4vw,1.45rem);color:var(--tx2);font-weight:300;
+  animation:fadeUp 1s var(--ease) .5s both;min-height:2em;
+}
+.t-typed{
+  font-weight:700;letter-spacing:.04em;
+  background:linear-gradient(110deg,#f9e7b3,#fff8e0 45%,#d4af37 70%,#f9e7b3);
+  background-size:220%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shine 5.5s linear infinite;
+}
+.caret{
+  display:inline-block;width:2px;height:1.15em;margin-left:3px;vertical-align:-.16em;
+  background:var(--g2);box-shadow:0 0 10px rgba(212,175,55,.8);
+  animation:blink 1s steps(1) infinite;
+}
+@keyframes blink{50%{opacity:0}}
+
+/* ============ FADE CYCLE ============ */
+.cycle-line{position:relative;display:flex;justify-content:center;margin:-26px 0 46px;height:26px;overflow:hidden;animation:fadeUp 1s var(--ease) .82s both}
+.cycle-line .c-item{
+  position:absolute;left:50%;display:flex;align-items:center;gap:9px;white-space:nowrap;
+  font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--tx3);
+  transform:translateX(-50%) translateY(16px);opacity:0;
+  transition:opacity .9s var(--ease),transform .9s var(--ease);
+}
+.cycle-line .c-item.active{opacity:1;transform:translateX(-50%) translateY(0)}
+.cycle-line .spark{width:6px;height:6px;background:var(--g3);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);animation:spinSlow 5s linear infinite}
+
+/* ============ HERO RINGS ============ */
+.hero-rings{
+  position:absolute;left:50%;top:44%;width:min(720px,82vw);aspect-ratio:1;
+  transform:translate(-50%,-50%);pointer-events:none;z-index:1;
+}
+.hero-rings i{position:absolute;inset:0;border:1px solid rgba(212,175,55,.15);border-radius:50%}
+.hero-rings i:nth-child(2){inset:9%;border-color:rgba(249,231,179,.11)}
+.hero-rings i:nth-child(3){inset:18%;border-color:rgba(212,175,55,.08)}
+.hero-rings i:nth-child(1){animation:ringPulse 7s ease-in-out infinite}
+.hero-rings i:nth-child(2){animation:ringPulse 9s ease-in-out infinite reverse}
+.hero-rings i:nth-child(3){animation:ringPulse 11s ease-in-out infinite}
+@keyframes ringPulse{0%,100%{transform:scale(.94);opacity:.55}50%{transform:scale(1.04);opacity:1}}
+.hero-inner,.diamond-stage{transition:opacity .45s ease,transform .45s ease}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:860px){
+  .nav-links{display:none}
+  .burger{display:block}
+  .nav-cta{display:none}
+  nav{padding:14px 20px}
+  nav.scrolled{padding:10px 20px}
+  section{padding:80px 0}
+  .hero{padding:120px 20px 80px}
+  .diamond-wrap{opacity:.55;right:-30px}
+  .hero-stats{gap:28px}
+  .wrap{padding:0 20px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;filter:none}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <svg class="diamond-mini" width="64" height="72" viewBox="0 0 64 72" fill="none">
+    <path d="M32 2L58 24L32 70L6 24Z" fill="url(#lg)" stroke="rgba(249,231,179,.8)" stroke-width="1"/>
+    <path d="M6 24H58M32 2V70M32 24L20 40M32 24L44 40" stroke="rgba(255,255,255,.35)" stroke-width="1"/>
+    <path d="M20 40L32 56L44 40Z" fill="rgba(249,231,179,.25)"/>
+    <defs><linearGradient id="lg" x1="6" y1="2" x2="58" y2="70">
+      <stop offset="0" stop-color="#f9e7b3"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#7a5d15"/>
+    </linearGradient></defs>
+  </svg>
+  <div class="l-name">VALENCE</div>
+  <div class="track"><div class="bar" id="loadbar"></div></div>
+  <div class="pct" id="loadpct">0%</div>
+</div>
+
+<div class="progress" id="progress"></div>
+
+<!-- ATMOSPHERE -->
+<canvas id="scene"></canvas>
+<div class="vignette"></div>
+<div class="blob a"></div>
+<div class="blob b"></div>
+<div class="blob c"></div>
+<div id="cursorGlow"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#home" class="logo">
+    <span class="v-mark">
+      <svg width="34" height="40" viewBox="0 0 48 56" fill="none">
+        <path d="M24 2L42 18L24 54L6 18Z" fill="url(#vmark)" stroke="rgba(249,231,179,.9)" stroke-width="1"/>
+        <path d="M6 18H42M24 2V54" stroke="rgba(255,255,255,.4)" stroke-width=".8"/>
+        <path d="M17 23L24 41L31 23" stroke="#120d02" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs><linearGradient id="vmark" x1="6" y1="2" x2="42" y2="54">
+          <stop offset="0" stop-color="#f9e7b3"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8a6d1f"/>
+        </linearGradient></defs>
+      </svg>
+    </span>
+    <span class="logo-name">VALENCE<b>.</b></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home" class="active">Home</a></li>
+    <li><a href="#classes">Classes</a></li>
+    <li><a href="#platforms">Platforms</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#pricing" class="nav-cta">Get Started</a>
+  <button class="burger" id="burger" aria-label="menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home">Home</a>
+  <a href="#classes">Classes</a>
+  <a href="#platforms">Platforms</a>
+  <a href="#features">Features</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#faq">FAQ</a>
+</div>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-rings" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="diamond-stage" aria-hidden="true">
+      <span class="star4 s1"></span><span class="star4 s2"></span><span class="star4 s3"></span>
+      <div class="diamond-wrap">
+        <svg viewBox="0 0 200 230" fill="none">
+          <defs>
+            <linearGradient id="df1" x1="20" y1="10" x2="180" y2="220">
+              <stop offset="0" stop-color="rgba(249,231,179,.55)"/><stop offset=".5" stop-color="rgba(212,175,55,.22)"/><stop offset="1" stop-color="rgba(122,93,21,.35)"/>
+            </linearGradient>
+            <linearGradient id="df2" x1="100" y1="0" x2="100" y2="230">
+              <stop offset="0" stop-color="rgba(255,255,255,.5)"/><stop offset=".4" stop-color="rgba(249,231,179,.12)"/><stop offset="1" stop-color="rgba(184,134,11,.3)"/>
+            </linearGradient>
+          </defs>
+          <path d="M100 8L182 62L100 222L18 62Z" fill="url(#df1)" stroke="rgba(249,231,179,.75)" stroke-width="1.4"/>
+          <path d="M18 62H182M100 8V222" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+          <path d="M68 34L100 62L132 34M82 62L100 90L118 62M100 90L64 62M100 90L136 62M100 90L76 136M100 90L124 136M76 136L58 62M124 136L142 62M76 136L100 182L124 136" stroke="rgba(249,231,179,.35)" stroke-width="1"/>
+          <path d="M68 34L46 62L58 62ZM132 34L154 62L142 62Z" fill="rgba(249,231,179,.18)"/>
+          <circle cx="100" cy="66" r="5" fill="rgba(255,255,255,.85)" opacity=".8">
+            <animate attributeName="opacity" values=".8;.2;.8" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="66" cy="150" r="3" fill="rgba(255,255,255,.7)" opacity=".5">
+            <animate attributeName="opacity" values=".5;0;.5" dur="4s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+        <div class="shine"></div>
+      </div>
+      <i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i><i class="orb o4"></i><i class="orb o5"></i>
+    </div>
+
+    <div class="hero-inner">
+      <div class="eyebrow"><span class="star"></span> The Golden Standard of Study</div>
+      <h1>One Platform.<br><span class="grad">Every Topper's Edge.</span></h1>
+      <p class="sub">Valence unifies <b>NextToppers</b>, <b>Mission Jeet</b> and <b>Vibrant Academy</b> into a single premium ecosystem for classes <b>8-12</b> — batches, AI doubt-solving, test series and analytics, all under one roof.</p>
+      <div class="type-line">Made for <span class="t-typed" id="typed"></span><span class="caret"></span></div>
+      <div class="cta-row">
+        <a href="#pricing" class="btn primary magnetic">Start Learning Free <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1506" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#platforms" class="btn ghost magnetic">Explore Platforms</a>
+      </div>
+      <div class="platform-strip">
+        <span class="p-chip"><span class="dot" style="background:#e9c46a;color:#e9c46a"></span> NextToppers</span>
+        <span class="p-chip"><span class="dot" style="background:#f0a7b0;color:#f0a7b0"></span> Mission Jeet</span>
+        <span class="p-chip"><span class="dot" style="background:#9ec9f5;color:#9ec9f5"></span> Vibrant Academy</span>
+      </div>
+      <div class="cycle-line" aria-hidden="true">
+        <span class="c-item active"><span class="spark"></span>New — AARAMBH 2.0 batches are live</span>
+        <span class="c-item"><span class="spark"></span>3 platforms · 1 subscription · zero compromise</span>
+        <span class="c-item"><span class="spark"></span>AI Doubt Tutor now on every plan</span>
+        <span class="c-item"><span class="spark"></span>JEE · NEET · Boards · CUET — one roof</span>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="num" data-count="50000" data-suffix="+">0</div><div class="lbl">Students</div></div>
+        <div class="stat"><div class="num" data-count="120" data-suffix="+">0</div><div class="lbl">Batches</div></div>
+        <div class="stat"><div class="num" data-count="98" data-suffix="%">0</div><div class="lbl">Success Rate</div></div>
+        <div class="stat"><div class="num" data-count="3">0</div><div class="lbl">Platforms</div></div>
+      </div>
+    </div>
+    <a href="#classes" class="scroll-cue"><span class="mouse"></span>Scroll</a>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>NEXT TOPPERS <i class="gem">◆</i> MISSION JEET <i class="gem">◆</i> VIBRANT ACADEMY <i class="gem">◆</i> IIT-JEE <i class="gem">◆</i> NEET <i class="gem">◆</i> BOARDS <i class="gem">◆</i> CUET <i class="gem">◆</i></span>
+      <span>NEXT TOPPERS <i class="gem">◆</i> MISSION JEET <i class="gem">◆</i> VIBRANT ACADEMY <i class="gem">◆</i> IIT-JEE <i class="gem">◆</i> NEET <i class="gem">◆</i> BOARDS <i class="gem">◆</i> CUET <i class="gem">◆</i></span>
+    </div>
+  </div>
+
+  <!-- CLASSES -->
+  <section id="classes">
+    <div class="wrap">
+      <div class="overline reveal"><span class="dia"></span> Choose Your Class <span class="line"></span></div>
+      <h2 class="sec-title reveal">Built for <span class="grad">Class 8 to 12</span></h2>
+      <p class="sec-sub reveal">From foundation to IIT-JEE &amp; NEET — every standard gets its own curriculum, batches and test series.</p>
+      <div class="classes-grid reveal" id="classGrid">
+        <div class="class-card on" data-class="8"><div class="num">08</div><div class="lbl">Class 8</div></div>
+        <div class="class-card" data-class="9"><div class="num">09</div><div class="lbl">Class 9</div></div>
+        <div class="class-card" data-class="10"><div class="num">10</div><div class="lbl">Class 10</div></div>
+        <div class="class-card" data-class="11"><div class="num">11</div><div class="lbl">Class 11</div></div>
+        <div class="class-card" data-class="12"><div class="num">12</div><div class="lbl">Class 12</div></div>
+      </div>
+      <div class="class-panel glass show" id="panel-8">
+        <h3>Class 8 — Foundation Builder</h3>
+        <p class="tag">NCERT-aligned foundation courses with concept-first teaching.</p>
+        <div class="class-subjects" id="subjects-8"></div>
+      </div>
+      <div class="class-panel glass" id="panel-9">
+        <h3>Class 9 — Strong Base</h3>
+        <p class="tag">School + NTSE/olympiad preparation, step by step.</p>
+        <div class="class-subjects" id="subjects-9"></div>
+      </div>
+      <div class="class-panel glass" id="panel-10">
+        <h3>Class 10 — Board Excellence</h3>
+        <p class="tag">Board-level mastery with sample paper marathons and doubt clinics.</p>
+        <div class="class-subjects" id="subjects-10"></div>
+      </div>
+      <div class="class-panel glass" id="panel-11">
+        <h3>Class 11 — Stream Selection</h3>
+        <p class="tag">Pick your stream — early IIT-JEE / NEET / Commerce / Humanities exposure.</p>
+        <div class="class-subjects" id="subjects-11"></div>
+      </div>
+      <div class="class-panel glass" id="panel-12">
+        <h3>Class 12 — The Final Battle</h3>
+        <p class="tag">Boards + IIT-JEE + NEET + CUET in one focused schedule.</p>
+        <div class="class-subjects" id="subjects-12"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORMS -->
+  <section id="platforms">
+    <div class="wrap">
+      <div class="overline reveal"><span class="dia"></span> Study Ecosystems <span class="line"></span></div>
+      <h2 class="sec-title reveal">Three Platforms. <span class="grad">Zero Compromise.</span></h2>
+      <p class="sec-sub reveal">Choose the ecosystem that matches your ambition — or unlock all three with Valence Prime.</p>
+      <div class="platforms-grid">
+        <div class="platform-card glass nt reveal" data-tilt>
+          <span class="p-badge">Popular</span>
+          <div class="emblem"><b>NT</b></div>
+          <h3>NextToppers</h3>
+          <p>India's fastest-growing learning ecosystem — high-energy lectures, rapid revisions and battle-tested batches for school &amp; boards.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Board + Foundation batches</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Daily class timetables</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Notes &amp; one-shot revision</li>
+          </ul>
+          <div class="p-foot"><span class="status">Included in Core &amp; above</span><a href="../studybee-mirror/index.html" class="enter">Enter Platform <svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+        </div>
+        <div class="platform-card glass mj reveal" data-tilt style="transition-delay:.1s">
+          <span class="p-badge">Speed</span>
+          <div class="emblem"><b>MJ</b></div>
+          <h3>Mission Jeet</h3>
+          <p>The exclusive high-speed ecosystem built for serious IIT-JEE &amp; NEET warriors — compressed syllabus, sprint modules and rapid-test loops.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Sprint &amp; crash courses</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Weekly mock battle series</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Rank-boosting daily drills</li>
+          </ul>
+          <div class="p-foot"><span class="status">Included in Pro &amp; above</span><a href="../mj-mirror/index.html" class="enter">Enter Platform <svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+        </div>
+        <div class="platform-card glass va reveal" data-tilt style="transition-delay:.2s">
+          <span class="p-badge">Legacy</span>
+          <div class="emblem"><b>VA</b></div>
+          <h3>Vibrant Academy</h3>
+          <p>The legendary IIT-JEE institution — rigorous problem practice, deep conceptual drills and the classic classroom discipline, digitised.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Legacy JEE problem sets</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Advanced concept mastery</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> JEE-Advanced level training</li>
+          </ul>
+          <div class="p-foot"><span class="status">Included in Prime only</span><a href="#" id="vaEnter" class="enter">Enter Platform <svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="wrap">
+      <div class="overline reveal"><span class="dia"></span> The Valence Engine <span class="line"></span></div>
+      <h2 class="sec-title reveal">Sixteen modules. <span class="grad">One machine.</span></h2>
+      <p class="sec-sub reveal">The entire Valence stack — from AI doubt-solving to exam analytics — powers every batch you join.</p>
+      <div class="features-grid" id="featuresGrid">
+        <div class="feature glass reveal"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></div><h3>AI Doubt Tutor</h3><p>Stuck at 2 AM? Valence AI explains any concept in seconds, tuned to your learning level.</p><span class="tag">AI Module</span></div>
+        <div class="feature glass reveal"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20v-9M18 20V4"/></svg></div><h3>Analytics &amp; Insights</h3><p>Subject-wise accuracy heatmaps, time-per-question graphs and rank projections after every test.</p><span class="tag">Analytics Module</span></div>
+        <div class="feature glass reveal"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg></div><h3>Premium UI</h3><p>A distraction-free, beautifully engineered interface designed to keep you in flow for hours.</p><span class="tag">UI Module</span></div>
+        <div class="feature glass reveal"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></div><h3>Study &amp; Storage</h3><p>Cloud-backed notes, PDFs and recordings synced across every device. Your notes, everywhere.</p><span class="tag">Study + Storage</span></div>
+        <div class="feature glass reveal"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></div><h3>Exams &amp; Test Series</h3><p>Chapter tests, full mocks, previous-year papers and custom test builders with instant AI solutions.</p><span class="tag">Exams Module</span></div>
+        <div class="feature glass reveal"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Security &amp; Auth</h3><p>Enterprise-grade encrypted sessions, device management and role-based access — students, parents, teachers.</p><span class="tag">Security Module</span></div>
+        <div class="feature glass reveal"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><h3>Smart Notifications</h3><p>Class reminders, test alerts and streak nudges — so you never miss a single session.</p><span class="tag">Notifications</span></div>
+        <div class="feature glass reveal"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div><h3>Plugins &amp; API</h3><p>Open API for integrations, plugins for custom tools, and admin controls for teachers to run live cohorts.</p><span class="tag">Plugins + Admin + API</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="wrap">
+      <div class="overline reveal"><span class="dia"></span> How It Works <span class="line"></span></div>
+      <h2 class="sec-title reveal">From signup to <span class="grad">rank list</span></h2>
+      <div class="steps">
+        <div class="step glass reveal"><div class="s-num">01</div><h3>Pick Your Class</h3><p>Choose class 8-12 and your goal — boards, JEE, NEET or CUET.</p></div>
+        <div class="step glass reveal" style="transition-delay:.08s"><div class="s-num">02</div><h3>Choose a Platform</h3><p>NextToppers, Mission Jeet or Vibrant Academy — or unlock all with Prime.</p></div>
+        <div class="step glass reveal" style="transition-delay:.16s"><div class="s-num">03</div><h3>Join a Batch</h3><p>Live classes, structured modules, notes and daily test loops.</p></div>
+        <div class="step glass reveal" style="transition-delay:.24s"><div class="s-num">04</div><h3>Track &amp; Improve</h3><p>AI analytics track every mark — weak chapters get auto-drills.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BATCHES COMING SOON -->
+  <section id="batches">
+    <div class="wrap">
+      <div class="soon glass reveal">
+        <div class="big">Batches &amp; Courses <span class="grad">Loading...</span></div>
+        <p>Our full course catalog — class 8-12 batches across all three platforms — goes live soon. Drop your email and we'll notify you the second enrolments open.</p>
+        <form class="notify-form" id="notifyForm">
+          <input type="email" id="notifyEmail" placeholder="you@email.com" required>
+          <button type="submit" class="btn primary">Notify Me</button>
+        </form>
+        <div class="mini-tags">
+          <span>PRARAMBH</span><span>AARAMBH</span><span>NIRBHAY</span><span>NIRMAAN</span><span>MISSION JEE</span><span>JEE CRASH</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="wrap">
+      <div class="overline reveal" style="justify-content:center"><span class="dia"></span> Subscriptions <span class="line" style="max-width:140px"></span></div>
+      <h2 class="sec-title center reveal">Valence <span class="grad">Core. Pro. Prime.</span></h2>
+      <p class="sec-sub center reveal">One account, three tiers. Upgrade anytime — every plan includes the full class 8-12 catalog.</p>
+      <div class="toggle reveal">
+        <span>Monthly</span>
+        <div class="pill" id="billingPill">
+          <button id="moBtn" class="on" onclick="setBilling('monthly')">Monthly</button>
+          <button id="yrBtn" onclick="setBilling('yearly')">Yearly</button>
+        </div>
+        <span class="save" id="saveTag">Save 2 months</span>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card glass reveal">
+          <div class="plan">Core</div>
+          <h3>Start Smart</h3>
+          <p class="desc">Everything a focused student needs to build daily consistency.</p>
+          <div class="amt"><span class="cur">Rs</span><span class="num" data-m="199" data-y="999">199</span><span class="per">/month</span></div>
+          <div class="strike" data-strike>Pay yearly — Rs 1,999</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> 1 study platform</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Full class 8-12 batches</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Notes, PDFs &amp; recordings</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Monthly test series</li>
+            <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg> AI Doubt Tutor</li>
+            <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg> Vibrant Academy access</li>
+          </ul>
+          <a href="#batches" class="btn ghost" style="justify-content:center">Start Core</a>
+        </div>
+        <div class="price-card glass popular reveal" style="transition-delay:.1s">
+          <span class="hot">Most Popular</span>
+          <div class="plan">Pro</div>
+          <h3>Serious Prep</h3>
+          <p class="desc">The complete study machine — two platforms and AI on your side.</p>
+          <div class="amt"><span class="cur">Rs</span><span class="num" data-m="399" data-y="1999">399</span><span class="per">/month</span></div>
+          <div class="strike" data-strike>Pay yearly — Rs 3,999</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> 2 study platforms</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> AI Doubt Tutor (24x7)</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Live classes &amp; doubt clinics</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Advanced analytics &amp; rank projections</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Weekly mock battles</li>
+            <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg> Vibrant Academy access</li>
+          </ul>
+          <a href="#batches" class="btn primary" style="justify-content:center">Go Pro</a>
+        </div>
+        <div class="price-card glass reveal" style="transition-delay:.2s">
+          <div class="plan">Prime</div>
+          <h3>Unbeatable</h3>
+          <p class="desc">Everything. All three ecosystems, mentorship and JEE-Advanced firepower.</p>
+          <div class="amt"><span class="cur">Rs</span><span class="num" data-m="699" data-y="3499">699</span><span class="per">/month</span></div>
+          <div class="strike" data-strike>Pay yearly — Rs 6,999</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> All 3 platforms incl. Vibrant Academy</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> 1-on-1 mentor sessions</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> JEE-Advanced level modules</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Priority support &amp; parent dashboard</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Unlimited test builder</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Early access to new batches</li>
+          </ul>
+          <a href="#batches" class="btn ghost" style="justify-content:center">Go Prime</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="wrap">
+      <div class="overline reveal"><span class="dia"></span> Wall of Love <span class="line"></span></div>
+      <h2 class="sec-title reveal">Students <span class="grad">on Valence</span></h2>
+      <div class="testi-grid">
+        <div class="testi glass reveal">
+          <div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></div>
+          <p>"I switched from 3 different apps to Valence. One dashboard, one timetable, and the AI doubt tutor saved me so many times before exams."</p>
+          <div class="who"><div class="av">AR</div><div><div class="nm">Aarav Rathore</div><div class="rl">Class 12 PCM, Mission Jeet</div></div></div>
+        </div>
+        <div class="testi glass reveal" style="transition-delay:.1s">
+          <div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></div>
+          <p>"The analytics are unreal. After every mock it tells me exactly which 3 chapters to fix before the next one. My score jumped 40+ marks in 2 months."</p>
+          <div class="who"><div class="av">SM</div><div><div class="nm">Sneha Mishra</div><div class="rl">Class 10, NextToppers</div></div></div>
+        </div>
+        <div class="testi glass reveal" style="transition-delay:.2s">
+          <div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></div>
+          <p>"Vibrant Academy modules on Valence Prime feel exactly like the real classroom — same rigour, same problem sets. Worth every rupee for a JEE aspirant."</p>
+          <div class="who"><div class="av">RK</div><div><div class="nm">Rohan Khanna</div><div class="rl">Class 12, Vibrant Academy + Prime</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="overline reveal" style="justify-content:center"><span class="dia"></span> FAQ <span class="line" style="max-width:140px"></span></div>
+      <h2 class="sec-title center reveal">Questions? <span class="grad">Answered.</span></h2>
+      <div class="faq-list reveal">
+        <div class="faq glass">
+          <button class="q" onclick="toggleFaq(this)">What exactly is Valence?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+          <div class="a"><p>Valence is a unified premium study platform for classes 8-12. It brings three ecosystems — NextToppers, Mission Jeet and Vibrant Academy — together with AI tools, test series and deep analytics under one subscription.</p></div>
+        </div>
+        <div class="faq glass">
+          <button class="q" onclick="toggleFaq(this)">Which class streams are supported?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+          <div class="a"><p>Classes 8, 9 and 10 get full-school coverage. Classes 11 and 12 cover PCM, PCB, Commerce and Humanities — including IIT-JEE, NEET and CUET preparation tracks.</p></div>
+        </div>
+        <div class="faq glass">
+          <button class="q" onclick="toggleFaq(this)">Can I switch study platforms?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+          <div class="a"><p>Yes. Core includes NextToppers, Pro adds Mission Jeet, and Prime unlocks all three including Vibrant Academy for IIT-JEE. Switch anytime — your progress analytics follow you.</p></div>
+        </div>
+        <div class="faq glass">
+          <button class="q" onclick="toggleFaq(this)">Is Vibrant Academy really for IIT-JEE?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+          <div class="a"><p>Yes — Vibrant Academy is the legacy IIT-JEE institution track: advanced problem sets, rigorous weekly tests and JEE-Advanced level training, available on the Prime plan.</p></div>
+        </div>
+        <div class="faq glass">
+          <button class="q" onclick="toggleFaq(this)">When do batches go live?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+          <div class="a"><p>Enrolments for the first batch cycle open soon. Drop your email in the "Batches" section and we'll notify you the moment sign-ups start — early birds get priority seating.</p></div>
+        </div>
+        <div class="faq glass">
+          <button class="q" onclick="toggleFaq(this)">Can I cancel or upgrade anytime?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+          <div class="a"><p>Absolutely. Upgrade, downgrade or cancel in one click from Billing inside your dashboard. Yearly plans come with a 7-day no-questions refund window.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="wrap">
+      <div class="cta-band glass reveal">
+        <span class="star4 d-float" style="top:12%;left:8%;width:14px;height:14px"></span>
+        <span class="orb d-float" style="top:20%;right:12%"></span>
+        <span class="orb d-float" style="bottom:18%;left:16%;animation-delay:1.2s"></span>
+        <span class="star4 d-float" style="bottom:22%;right:8%;width:10px;height:10px;animation-duration:8s,6s"></span>
+        <h2>Your rank won't wait.<br><span class="grad">Neither should you.</span></h2>
+        <p>Join Valence today and get the whole ecosystem — three platforms, AI tutoring and analytics that actually move your scores.</p>
+        <div class="cta-row" style="margin-bottom:0">
+          <a href="#pricing" class="btn primary magnetic">Choose Your Plan <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1506" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#classes" class="btn ghost magnetic">Explore Classes</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#home" class="logo">
+        <span class="v-mark">
+          <svg width="30" height="36" viewBox="0 0 48 56" fill="none">
+            <path d="M24 2L42 18L24 54L6 18Z" fill="url(#fmark)" stroke="rgba(249,231,179,.9)" stroke-width="1"/>
+            <path d="M17 23L24 41L31 23" stroke="#120d02" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs><linearGradient id="fmark" x1="6" y1="2" x2="42" y2="54"><stop offset="0" stop-color="#f9e7b3"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8a6d1f"/></linearGradient></defs>
+          </svg>
+        </span>
+        <span class="logo-name" style="font-size:1.05rem">VALENCE<b>.</b></span>
+      </a>
+      <p>The unified study platform for classes 8-12. Three ecosystems, one goal — your selection.</p>
+      <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+        <span class="p-chip" style="font-size:11px"><span class="dot" style="background:#e9c46a;color:#e9c46a"></span>NextToppers</span>
+        <span class="p-chip" style="font-size:11px"><span class="dot" style="background:#f0a7b0;color:#f0a7b0"></span>Mission Jeet</span>
+        <span class="p-chip" style="font-size:11px"><span class="dot" style="background:#9ec9f5;color:#9ec9f5"></span>Vibrant</span>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h4>Platform</h4>
+      <a href="#classes">Classes 8-12</a>
+      <a href="#platforms">Study Platforms</a>
+      <a href="#features">Features</a>
+      <a href="#batches">Batches</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div class="foot-col">
+      <h4>Company</h4>
+      <a href="#about">About Valence</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+      <span>support@valence.study</span>
+    </div>
+    <div class="foot-col">
+      <h4>System Architecture</h4>
+      <div class="tree">
+        <div class="t-root">Valence</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Core</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Framework</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ UI</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ AI</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Dashboard</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Authentication</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Billing</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Exams</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Study</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Storage</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ API</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Admin</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Analytics</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Notifications</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Plugins</div>
+        <div class="t-mod">&nbsp;&nbsp;├─ Security</div>
+        <div class="t-mod">&nbsp;&nbsp;└─ Utils</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">&copy; 2026 <b>Valence Study Platform</b> &bull; Crafted for toppers, by toppers. &bull; NextToppers &bull; Mission Jeet &bull; Vibrant Academy</div>
+</footer>
+
+<script>
+/* ================= LOADER ================= */
+const loadPct = document.getElementById('loadpct');
+const loadBar = document.getElementById('loadbar');
+let pct = 0;
+const loadInt = setInterval(() => {
+  pct += Math.random() * 24 + 7;
+  if (pct >= 100) {
+    pct = 100;
+    clearInterval(loadInt);
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('done');
+      document.body.classList.add('loaded');
+      setTimeout(() => document.getElementById('loader').remove(), 700);
+    }, 260);
+  }
+  loadPct.textContent = Math.floor(pct) + '%';
+  loadBar.style.width = pct + '%';
+}, 90);
+
+/* ================= PARTICLES ================= */
+const canvas = document.getElementById('scene');
+const ctx = canvas.getContext('2d');
+let W, H, dots = [], mX = 0, mY = 0;
+function resizeCanvas() {
+  W = canvas.width = innerWidth;
+  H = canvas.height = innerHeight;
+  const count = Math.min(130, Math.floor(W * H / 15000));
+  dots = [];
+  for (let i = 0; i < count; i++) {
+    const shard = Math.random() > 0.82;
+    dots.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: shard ? Math.random() * 2.4 + 1.2 : Math.random() * 1.5 + 0.4,
+      vx: (Math.random() - 0.5) * 0.2,
+      vy: (Math.random() - 0.5) * 0.2,
+      shard,
+      rot: Math.random() * Math.PI,
+      tw: Math.random() * Math.PI * 2
+    });
+  }
+}
+resizeCanvas();
+addEventListener('resize', resizeCanvas);
+addEventListener('mousemove', (e) => { mX = e.clientX; mY = e.clientY; });
+function drawScene() {
+  ctx.clearRect(0, 0, W, H);
+  for (const d of dots) {
+    d.x += d.vx;
+    d.y += d.vy;
+    d.tw += 0.02;
+    if (d.x < -12) d.x = W + 12; if (d.x > W + 12) d.x = -12;
+    if (d.y < -12) d.y = H + 12; if (d.y > H + 12) d.y = -12;
+    const par = (mX - W / 2) / W * 16;
+    const dx = d.x + par, dy = d.y + (mY - H / 2) / H * 12;
+    const a = 0.18 + Math.sin(d.tw) * 0.16;
+    ctx.save();
+    if (d.shard) {
+      ctx.translate(dx, dy);
+      ctx.rotate(d.rot);
+      ctx.beginPath();
+      ctx.moveTo(0, -d.r * 1.9);
+      ctx.lineTo(d.r * 0.8, 0);
+      ctx.lineTo(0, d.r * 1.9);
+      ctx.lineTo(-d.r * 0.8, 0);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(233,196,106,' + Math.max(a, 0.08) + ')';
+      ctx.fill();
+    } else {
+      ctx.beginPath();
+      ctx.arc(dx, dy, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(249,231,179,' + Math.max(a * 0.7, 0.05) + ')';
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+  requestAnimationFrame(drawScene);
+}
+drawScene();
+
+/* ================= CURSOR GLOW ================= */
+const cursorGlow = document.getElementById('cursorGlow');
+if (matchMedia('(pointer:fine)').matches) {
+  addEventListener('mousemove', (e) => {
+    cursorGlow.style.left = e.clientX + 'px';
+    cursorGlow.style.top = e.clientY + 'px';
+  });
+}
+
+/* ================= TYPEWRITER ================= */
+const typeWords = ['IIT-JEE', 'NEET', 'Boards', 'CUET', 'NTSE & Olympiads', 'Foundation'];
+const typedEl = document.getElementById('typed');
+let tWi = 0, tCi = 0, tDel = false;
+(function tick() {
+  const w = typeWords[tWi];
+  if (!tDel) {
+    tCi++;
+    if (tCi > w.length) { tDel = true; setTimeout(tick, 1750); return; }
+  } else {
+    tCi--;
+    if (tCi < 0) { tDel = false; tWi = (tWi + 1) % typeWords.length; tCi = 0; }
+  }
+  typedEl.textContent = w.slice(0, tCi);
+  setTimeout(tick, tDel ? 42 : 88);
+})();
+
+/* ================= FADE CYCLE ================= */
+const cItems = [...document.querySelectorAll('.cycle-line .c-item')];
+if (cItems.length > 1) {
+  let cI = 0;
+  setInterval(() => {
+    cItems[cI].classList.remove('active');
+    cI = (cI + 1) % cItems.length;
+    cItems[cI].classList.add('active');
+  }, 3200);
+}
+
+/* ================= NAV / SCROLL ================= */
+const nav = document.getElementById('nav');
+const progress = document.getElementById('progress');
+const sections = [...document.querySelectorAll('section[id]')];
+const navLinks = [...document.querySelectorAll('.nav-links a')];
+function onScroll() {
+  nav.classList.toggle('scrolled', scrollY > 40);
+  const h = document.documentElement.scrollHeight - innerHeight;
+  progress.style.width = (scrollY / h) * 100 + '%';
+  const heroP = Math.min(scrollY / 620, 1);
+  const heroIn = document.querySelector('.hero-inner');
+  const heroStage = document.querySelector('.diamond-stage');
+  if (heroIn) {
+    heroIn.style.opacity = 1 - heroP;
+    heroIn.style.transform = 'translateY(' + (heroP * -46) + 'px)';
+  }
+  if (heroStage) heroStage.style.opacity = Math.max(1 - heroP * 1.35, 0);
+  let current = sections[0].id;
+  sections.forEach((s) => {
+    if (scrollY >= s.offsetTop - innerHeight * 0.45) current = s.id;
+  });
+  navLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+}
+addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+/* ================= MOBILE MENU ================= */
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  burger.querySelectorAll('span').forEach((s, i) => {
+    s.style.transform = open ? (i === 1 ? 'scaleX(0)' : 'rotate(' + (i === 0 ? '45deg' : '-45deg') + ') translateY(' + (i === 0 ? '3px' : '-3px') + ')') : '';
+  });
+});
+mobileMenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+/* ================= REVEAL ================= */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach((el) => revealObs.observe(el));
+
+/* ================= COUNTERS ================= */
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    countObs.unobserve(el);
+    const target = +el.dataset.count;
+    const suffix = el.dataset.suffix || '';
+    const start = performance.now();
+    const dur = 1800;
+    (function step(now) {
+      const p = Math.min((now - start) / dur, 1);
+      let val = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      el.textContent = (target >= 1000 ? val.toLocaleString('en-IN') : val) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    })(start);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach((el) => countObs.observe(el));
+
+/* ================= MAGNETIC ================= */
+document.querySelectorAll('.magnetic').forEach((btn) => {
+  btn.addEventListener('mousemove', (e) => {
+    const r = btn.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width / 2) * 0.2;
+    const y = (e.clientY - r.top - r.height / 2) * 0.2;
+    btn.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+  });
+  btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+});
+
+/* ================= TILT + SPOTLIGHT ================= */
+document.querySelectorAll('[data-tilt]').forEach((card) => {
+  card.addEventListener('mousemove', (e) => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = 'perspective(900px) rotateY(' + x * 6 + 'deg) rotateX(' + (-y * 6) + 'deg) translateY(-8px)';
+    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+});
+document.querySelectorAll('.glass').forEach((g) => {
+  g.addEventListener('mousemove', (e) => {
+    const r = g.getBoundingClientRect();
+    g.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    g.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+});
+
+/* ================= CLASS SELECTOR ================= */
+const classSubjects = {
+  8: [
+    { name: 'Mathematics', note: 'Foundation', icon: '<path d="M7 4v16M17 4v16M4 9h16M4 15h16"/>' },
+    { name: 'Science', note: 'Physics + Chem + Bio', icon: '<circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/>' },
+    { name: 'Social Science', note: 'Hist + Geo + Civics', icon: '<circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3.1-6 7-6s7 2 7 6"/>' },
+    { name: 'English', note: 'Grammar + Lit', icon: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/>' },
+    { name: 'Hindi', note: 'Grammar + Sahitya', icon: '<path d="M12 3v14M12 17H7a5 5 0 0 1 0-10h5M12 11c4 0 7 2 7 6" />' },
+    { name: 'Reasoning & GK', note: 'Mental ability', icon: '<path d="M9 18h6M10 21h4M8 3h8v7a4 4 0 0 1-8 0V3z"/>' }
+  ],
+  9: [
+    { name: 'Mathematics', note: 'Algebra + Geometry', icon: '<path d="M7 4v16M17 4v16M4 9h16M4 15h16"/>' },
+    { name: 'Science', note: 'Physics + Chem + Bio', icon: '<circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/>' },
+    { name: 'Social Science', note: 'Hist + Geo + Civics', icon: '<circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3.1-6 7-6s7 2 7 6"/>' },
+    { name: 'English', note: 'Grammar + Lit', icon: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/>' },
+    { name: 'NTSE / Olympiad', note: 'MAT + SAT prep', icon: '<path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 7.7l5.4-.8z"/>' }
+  ],
+  10: [
+    { name: 'Mathematics', note: 'Board + Standard', icon: '<path d="M7 4v16M17 4v16M4 9h16M4 15h16"/>' },
+    { name: 'Science', note: 'Physics + Chem + Bio', icon: '<circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/>' },
+    { name: 'Social Science', note: 'Hist + Geo + Civics + Eco', icon: '<circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3.1-6 7-6s7 2 7 6"/>' },
+    { name: 'English', note: 'Boards + Writing', icon: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/>' },
+    { name: 'Sample Paper Drills', note: '100+ papers', icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/>' }
+  ],
+  11: [
+    { name: 'PCM', note: 'IIT-JEE track', icon: '<path d="M12 2l8 4.5v9L12 20l-8-4.5v-9L12 2z"/><path d="M12 11l8-4.5M12 11L4 6.5M12 11v9"/>' },
+    { name: 'PCB', note: 'NEET track', icon: '<circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/>' },
+    { name: 'Commerce', note: 'Acc + BS + Eco', icon: '<path d="M3 21V8l6-5 6 5v13M9 21v-6h6v6M21 21V3h-6v6"/>' },
+    { name: 'Humanities', note: 'Hist + PolSci + Geo', icon: '<circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3.1-6 7-6s7 2 7 6"/>' },
+    { name: 'English', note: 'Core', icon: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/>' }
+  ],
+  12: [
+    { name: 'PCM', note: 'IIT-JEE Advanced', icon: '<path d="M12 2l8 4.5v9L12 20l-8-4.5v-9L12 2z"/><path d="M12 11l8-4.5M12 11L4 6.5M12 11v9"/>' },
+    { name: 'PCB', note: 'NEET + Boards', icon: '<circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/>' },
+    { name: 'Commerce', note: 'Boards + CUET', icon: '<path d="M3 21V8l6-5 6 5v13M9 21v-6h6v6M21 21V3h-6v6"/>' },
+    { name: 'Humanities', note: 'Boards + CUET', icon: '<circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3.1-6 7-6s7 2 7 6"/>' },
+    { name: 'CUET Prep', note: 'All domains', icon: '<path d="M22 9l-9-6-9 6 9 6 9-6z"/><path d="M22 14l-9 6-9-6"/>' }
+  ]
+};
+document.querySelectorAll('.class-card').forEach((card) => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.class-card').forEach((c) => c.classList.remove('on'));
+    card.classList.add('on');
+    const cls = card.dataset.class;
+    document.querySelectorAll('.class-panel').forEach((p) => p.classList.remove('show'));
+    document.getElementById('panel-' + cls).classList.add('show');
+  });
+});
+function renderSubjects() {
+  Object.keys(classSubjects).forEach((cls) => {
+    const host = document.getElementById('subjects-' + cls);
+    host.innerHTML = classSubjects[cls].map((s) => `
+      <div class="subject">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${s.icon}</svg></div>
+        <div><div class="s-name">${s.name}</div><div class="s-note">${s.note}</div></div>
+      </div>`).join('');
+  });
+}
+renderSubjects();
+
+/* ================= PLATFORM LINKS ================= */
+const VA_REMOTE = 'https://va-vercel.vercel.app/api/vt?f=3929';
+const vtBase = () => (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:8090/'
+  : VA_REMOTE;
+const platformLinks = {
+  '.platform-card.nt': '../studybee-mirror/index.html',
+  '.platform-card.mj': '../mj-mirror/index.html',
+  '.platform-card.va': vtBase()
+};
+const vaEnter = document.getElementById('vaEnter');
+if (vaEnter) vaEnter.href = vtBase();
+Object.entries(platformLinks).forEach(([sel, url]) => {
+  const card = document.querySelector(sel);
+  if (card) {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      location.href = url;
+    });
+  }
+});
+
+/* ================= PRICING TOGGLE ================= */
+let billing = 'monthly';
+function setBilling(mode) {
+  billing = mode;
+  document.getElementById('moBtn').classList.toggle('on', mode === 'monthly');
+  document.getElementById('yrBtn').classList.toggle('on', mode === 'yearly');
+  document.getElementById('billingPill').classList.toggle('yr', mode === 'yearly');
+  const tag = document.getElementById('saveTag');
+  tag.style.opacity = mode === 'yearly' ? 1 : 0.35;
+  document.querySelectorAll('.amt .num').forEach((el) => {
+    const val = el.dataset[mode];
+    el.textContent = val;
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = 'riseUp .4s cubic-bezier(.16,1,.3,1)';
+  });
+  document.querySelectorAll('[data-strike]').forEach((el) => {
+    el.style.display = mode === 'yearly' ? 'block' : 'none';
+  });
+}
+setBilling('monthly');
+
+/* ================= FAQ ================= */
+function toggleFaq(btn) {
+  const faq = btn.parentElement;
+  const answer = faq.querySelector('.a');
+  const isOpen = faq.classList.contains('open');
+  document.querySelectorAll('.faq.open').forEach((f) => {
+    f.classList.remove('open');
+    f.querySelector('.a').style.maxHeight = '0px';
+  });
+  if (!isOpen) {
+    faq.classList.add('open');
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+  }
+}
+
+/* ================= NOTIFY FORM ================= */
+document.getElementById('notifyForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('notifyEmail').value.trim();
+  const btn = e.target.querySelector('.btn');
+  if (!email || !email.includes('@')) return;
+  btn.textContent = 'You are on the list!';
+  btn.style.background = 'linear-gradient(120deg,#7ddc8f,#3fae5d)';
+  localStorage.setItem('valence_notify', email);
+  setTimeout(() => {
+    btn.textContent = 'Notify Me';
+    btn.style.background = '';
+    e.target.reset();
+  }, 2600);
+});
+</script>
+</body>
+</html>

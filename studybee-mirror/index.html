@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#09090b">
+    <title>Valence | Premium</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23f9e7b3'/><stop offset='0.55' stop-color='%23d4af37'/><stop offset='1' stop-color='%237a5d15'/></linearGradient></defs><path d='M32 4L56 24L32 60L8 24Z' fill='url(%23g)'/><path d='M8 24H56M32 4V60' stroke='rgba(255,255,255,0.45)' stroke-width='1.4'/><path d='M24 28L32 46L40 28' stroke='%23121008' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">  
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons (Unique, Premium Icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Premium Fonts: Outfit (Modern Sans) & Space Grotesk (Tech Mono/Display) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#050507', // Deepest almost-black
+                        surface: '#111114',    // Slightly lighter for cards
+                        surfaceHover: '#18181c',
+                        border: '#ffffff1a',   // 10% white
+                        primary: '#eab308',    // Yellow-500 (Gold)
+                        primaryHover: '#facc15',// Yellow-400
+                        primaryGlow: 'rgba(234, 179, 8, 0.15)',
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['Space Grotesk', 'monospace'],
+                    },
+                    boxShadow: {
+                        'neon': '0 0 20px rgba(234, 179, 8, 0.2)',
+                        'neon-strong': '0 0 30px rgba(234, 179, 8, 0.4)',
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+                    },
+                    animation: {
+                        'shimmer': 'shimmer 2s linear infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            'from': { backgroundPosition: '200% 0' },
+                            'to': { backgroundPosition: '-200% 0' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            background-color: #050507; 
+            color: #fafafa; 
+            scroll-behavior: smooth; 
+            -webkit-tap-highlight-color: transparent;
+            /* subtle noise texture for premium feel */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+        
+        /* Interactive click effect */
+        .btn-press { transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-press:active { transform: scale(0.95); }
+        
+        /* Custom Premium Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050507; }
+        ::-webkit-scrollbar-thumb { background: #1a1a20; border-radius: 4px; border: 2px solid #050507; }
+        ::-webkit-scrollbar-thumb:hover { background: #eab308; }
+        
+        /* Hide scrollbars but keep functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Glassmorphism utilities */
+        .glass-panel {
+            background: rgba(17, 17, 20, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Card Hover Effects */
+        .premium-card {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .premium-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(234, 179, 8, 0.4);
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.9), 0 0 25px rgba(234, 179, 8, 0.15);
+        }
+        .premium-card:hover .card-img {
+            transform: scale(1.08);
+        }
+
+        /* Image Shine Effect */
+        .shine-effect::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -150%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent);
+            transform: skewX(-25deg);
+            transition: 0.7s;
+            z-index: 10;
+        }
+        .premium-card:hover .shine-effect::after {
+            left: 150%;
+            transition: 0.7s;
+        }
+
+        /* Pop in animation */
+        .pop-in { 
+            animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        @keyframes popIn { 
+            to { opacity: 1; transform: translateY(0) scale(1); } 
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #facc15, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    
+        .brand-gold{font-family:'Cinzel',serif;font-weight:800;letter-spacing:.14em;background:linear-gradient(110deg,#f9e7b3,#fff8e0 45%,#d4af37 70%,#f9e7b3);background-size:220%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:brandShine 6s linear infinite}
+        @keyframes brandShine{to{background-position:220% center}}
+    </style>
+</head>
+<body class="min-h-screen relative flex flex-col font-sans pb-12">
+    
+    <!-- Background Ambient Glow -->
+    <div class="fixed inset-0 pointer-events-none z-[-1]">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/10 blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-orange-600/5 blur-[120px]"></div>
+    </div>
+
+    <!-- UNIFIED HEADER (Desktop & Mobile) -->
+    <header class="sticky top-0 z-50 bg-background/90 backdrop-blur-xl border-b border-border shadow-sm">
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between py-4 gap-4">
+                
+                <!-- Logo -->
+                <div class="flex items-center gap-3 cursor-pointer btn-press group w-max" onclick="window.location.reload()">
+                    <div class="w-10 h-10 rounded-xl overflow-hidden border border-border relative">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23f9e7b3'/><stop offset='0.55' stop-color='%23d4af37'/><stop offset='1' stop-color='%237a5d15'/></linearGradient></defs><path d='M32 4L56 24L32 60L8 24Z' fill='url(%23g)'/><path d='M8 24H56M32 4V60' stroke='rgba(255,255,255,0.45)' stroke-width='1.4'/><path d='M24 28L32 46L40 28' stroke='%23121008' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>" alt="Logo" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                    <h1 class="text-xl font-bold tracking-wide">
+                        <span class="brand-gold">VALENCE</span><span class="text-primary font-mono ml-1 text-sm font-bold bg-primary/10 px-2 py-0.5 rounded text-primary">PRO</span>
+                    </h1>
+                </div>
+
+                <!-- Tabs (Unified Top Navigation) -->
+                <div class="flex items-center gap-1 overflow-x-auto no-scrollbar w-full md:w-auto p-1 bg-surface border border-border rounded-xl">
+                    <button id="tab-new" onclick="switchTab('new')" class="tab-btn flex-1 md:flex-none px-5 py-2.5 rounded-lg text-sm font-semibold transition-all bg-border text-white shadow-sm flex items-center justify-center gap-2 whitespace-nowrap btn-press">
+                        <i id="icon-new" class="ph-duotone ph-lightning text-lg text-primary transition-colors"></i> New Batches
+                    </button>
+                    <button id="tab-old" onclick="switchTab('old')" class="tab-btn flex-1 md:flex-none px-5 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-400 hover:text-white flex items-center justify-center gap-2 whitespace-nowrap btn-press">
+                        <i id="icon-old" class="ph-duotone ph-archive text-lg transition-colors"></i> Old Batches
+                    </button>
+                    <button id="tab-wishlist" onclick="switchTab('wishlist')" class="tab-btn flex-1 md:flex-none px-5 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-400 hover:text-white flex items-center justify-center gap-2 whitespace-nowrap relative btn-press">
+                        <i id="icon-wishlist" class="ph-duotone ph-heart text-lg transition-colors"></i> Wishlist
+                        <span id="wishlist-badge" class="hidden absolute top-1.5 right-1.5 md:relative md:top-auto md:right-auto bg-primary text-background text-[10px] font-bold px-1.5 py-0.5 rounded-full md:ml-1">0</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 w-full max-w-[90rem] mx-auto px-5 sm:px-6 relative z-10 pt-6">
+        
+        <!-- Controls: Search Bar -->
+        <div class="flex items-center justify-end mb-8 pop-in">
+            <div class="w-full md:w-[350px] relative group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="ph-duotone ph-magnifying-glass text-xl text-gray-500 group-focus-within:text-primary transition-colors"></i>
+                </div>
+                <input type="text" id="searchInput" placeholder="Search courses, batches..." 
+                    class="w-full bg-surface border border-border text-white text-sm font-medium rounded-xl block pl-11 pr-10 py-3.5 transition-all placeholder:text-gray-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50">
+                <button id="clearSearchBtn" onclick="clearSearch()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-white hidden transition-colors">
+                    <i class="ph-fill ph-x-circle text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingIndicator" class="flex flex-col items-center justify-center py-20">
+            <i class="ph-duotone ph-spinner-gap text-4xl text-primary animate-spin mb-4"></i>
+            <p class="font-mono text-sm text-gray-400 uppercase tracking-widest animate-pulse">Syncing Database...</p>
+        </div>
+
+        <!-- Content Grid -->
+        <div id="batchGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 hidden">
+            <!-- Cards injected via JS -->
+        </div>
+
+        <!-- Load More -->
+        <div id="loadMoreContainer" class="w-full flex justify-center mt-12 mb-8 hidden pop-in" style="animation-delay: 200ms;">
+            <button id="loadMoreBtn" onclick="loadMore()" class="group px-8 py-3 bg-surface hover:bg-surfaceHover border border-border hover:border-primary/50 rounded-xl text-white font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-neon btn-press flex items-center gap-2">
+                Load More Contents
+                <i class="ph-bold ph-caret-down group-hover:translate-y-1 transition-transform"></i>
+            </button>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden flex-col items-center justify-center py-24 text-center pop-in">
+            <div class="w-20 h-20 bg-surface rounded-2xl flex items-center justify-center mb-5 border border-border">
+                <i class="ph-duotone ph-ghost text-4xl text-gray-500"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2 font-mono">NO RESULTS FOUND</h3>
+            <p class="text-gray-500 text-sm max-w-sm">Try tweaking your search terms or check a different category.</p>
+        </div>
+    </main>
+
+    <script>
+        // Constants & State
+        let batchesData = { new: [], old: [] };
+        let currentTab = 'new'; // 'new', 'old', 'wishlist'
+        let wishlist = JSON.parse(localStorage.getItem('valence_wishlist') || '[]').map(String);
+        
+        const ITEMS_PER_PAGE = 8; 
+        let currentlyDisplayedCount = 0;
+        let currentFilteredData = [];
+
+        // Embedded fallback data so the mirror works even without a local server
+        const EMBEDDED_BATCHES = {"new":[{"id":101,"title":"Commerce 12th - PRARAMBH 2.0 (2026-27)","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/379913_125_Commerce%20Prarambh%202.0%20Batch%20Class%2012th%20App%20Banners.jpg"},{"id":103,"title":"Science (PCMB) 12th - PRARAMBH 2.0 (2026-27)","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/1153510_125_Science%20Prarambh%202.0%20Batch%20Class%2012th%20App%20Banners.jpg"},{"id":105,"title":"Humanities 12th - PRARAMBH 2.0 (2026-27)","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/7561991_125_Humanites%20Prarambh%202.0%20Batch%20Class%2012th%20App%20Banners.jpg"},{"id":176,"title":"AARAMBH 2.0 10th BATCH 26-27","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/356423_125_10th%20aarambh%202.0%20banner%20app%202.jpg"},{"id":177,"title":"NIRMAAN BATCH CLASS 8TH 2026-27","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/6956338_125_Nirbhay%20Batch%20Class%208th%20App%20Banners09.jpg"},{"id":178,"title":"AARAMBH 2.0 9th BATCH 26-27","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/4330317_125_9th%20aarambh%202.0%20banner%20app%202.jpg"},{"id":179,"title":"AARAMBH 2.0 PLUS 9th BATCH 26-27","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/1219057_125_9th%20aarambh%202.0%20plus%20banner%20app.jpg"},{"id":183,"title":"NIRMAAN Summer Camp 2026","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/1583344_125_Nirmaan%20Summer%20Camp%20App%20Banners09%20%281%29.jpg"},{"id":190,"title":"IOQM - CRASH COURSE","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/3074115_125_Olympaid%20IOQM%20App%20Banners09.png"},{"id":191,"title":"NSEJS + SEHSS CRASH COURSE","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/7402474_125_Olympaid%20NSEJS%2BSEHSS%20App%20Banners09.png"},{"id":192,"title":"IOQM + NSEJS + SEHSS (CRASH COURSE)","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/7718044_125_Olympaid%20Combo%20App%20Banners09%20%281%29.png"},{"id":193,"title":"NIRMAAN 2.0 BATCH Class 8th","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/6292174_125_Nirmaan%202.0%20Batch%20Class%208th%20App%20Banners09.png"},{"id":107,"title":"Science (PCMB) 11th - PRARAMBH 2.0  ( 2026-27 )","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/7450443_125_Science%20Prarambh%202.0%20Batch%20Class%2011th%20App%20Banners.jpg"},{"id":108,"title":"Commerce 11th - PRARAMBH 2.0 ( 2026-27 )","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/498047_125_Commerce%20Prarambh%202.0%20Batch%20Class%2011th%20App%20Banners.jpg"},{"id":109,"title":"Humanities 11th - PRARAMBH 2.0 ( 2026-27 )","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/6568182_125_Humanites%20Prarambh%202.0%20Batch%20Class%2011th%20App%20Banners.jpg"},{"id":112,"title":"Science (PCMB) 11th - PRARAMBH PLUS 2.0 ( 2026-27)","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/5976277_125_Science%20Prarambh%202.0%20Plus%20Batch%20Class%2011th%20App%20Banners.jpg"},{"id":110,"title":"Commerce 11th - PRARAMBH PLUS 2.0 ( 2026-27)","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/5668039_125_Commerce%20Prarambh%202.0%20Plus%20Batch%20Class%2011th%20App%20Banners.jpg"},{"id":111,"title":"Humanities 11th - PRARAMBH PLUS  2.0 ( 2026-27)","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/5345603_125_Humanities%20Prarambh%202.0%20Plus%20Batch%20Class%2011th%20App%20Banners.jpg"},{"id":104,"title":"SCIENCE (PCMB) 12TH - PRARAMBH PRO 2026-27","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/1890800_125_Science%20Prarambh%20Batch%20Class%2012th%20PRO%20App%20Banners.jpg"},{"id":102,"title":"COMMERCE 12TH - PRARAMBH PRO 2026-27","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/7402116_125_Commerce%20Prarambh%20Batch%20Class%2012th%20PRO%20App%20Banners.jpg"},{"id":106,"title":"HUMANITIES 12TH - PRARAMBH PRO 2026-27","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/3207649_125_IMG_5291.jpeg"},{"id":122,"title":"CUET (SCIENCE) 2026-27","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/346473_125_Science%20CUET%20Batch%20Class%2012th%20PRO%20App%20Banners.jpg"},{"id":123,"title":"CUET (HUMANITIES) 2026-27","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/6877813_125_Humanities%20CUET%20Batch%20Class%2012th%20PRO%20App%20Banners.jpg"},{"id":124,"title":"CUET (COMMERCE) 2026-27","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/721208_125_Commerce%20CUET%20Batch%20Class%2012th%20PRO%20App%20Banners.jpg"},{"id":197,"title":"NIRMAAN : Class 7","thumbnail":"https://dylnd2lqy6eys.cloudfront.net/1770981347/admin_v2/uploads/courses/thumbnail/1228199_125_Class%207th%20Nirmann%20Prashant%20Sir%20Banners09-01.png"}],"old":[{"id":62,"title":"AARAMBH 2.0 10TH BATCH 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/285939929246_10th%20aarambh%202.0%20banner%20app.jpg"},{"id":64,"title":"AARAMBH 2.0 9TH BATCH 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/152792333113_9th%20aarambh%202.0%20banner%20app.jpg"},{"id":78,"title":"ABHAY 10TH BATCH 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/626308539904_abhay%2010th%20banner%20app%202026.png"},{"id":81,"title":"ABHAY 9TH BATCH 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/151836440589_abhay%209th%20banner%20app%202026.png"},{"id":85,"title":"SCIENCE 11TH (PCMB) - NIRBHAY 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/443372940688_Nirbhay%20Class%2011th%20Science.jpg"},{"id":86,"title":"SCIENCE 12TH (PCMB) - NIRBHAY 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/194079640690_Nirbhay%20Class%2012th%20Science.jpg"},{"id":87,"title":"HUMANITIES 11TH - NIRBHAY 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/552700840691_Nirbhay%20Class%2011th%20Humanities.jpg"},{"id":88,"title":"HUMANITIES 12TH - NIRBHAY 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/547817640692_Nirbhay%20Class%2012th%20Humanities.jpg"},{"id":89,"title":"COMMERCE 11TH - NIRBHAY 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/782676440693_Nirbhay%20Class%2011th%20Commerce.jpg"},{"id":90,"title":"COMMERCE 12TH - NIRBHAY 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/637993340694_Nirbhay%20Class%2012th%20Commerce.jpg"},{"id":91,"title":"COMMERCE NIRBHAY PRO 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/770214940695_WhatsApp%20Image%202025-11-23%20at%2018.46.10.jpeg"},{"id":92,"title":"SCIENCE NIRBHAY PRO 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/466570440696_Nirbhay%20Science%20CUET09.jpg"},{"id":93,"title":"HUMANITIES NIRBHAY PRO 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/110723540697_Prarambh%20BATCh%20Humanites09.jpg"},{"id":53,"title":"PRARAMBH HUMANITIES 11TH 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/216113028517_Prarambh%20BATCh%20Humanities%2011.png"},{"id":55,"title":"PRARAMBH SCIENCE 11TH (PCMB) 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/183130728609_Prarambh%20BATCh%20Science%20Class%2011.png"},{"id":56,"title":"PRARAMBH COMMERCE 11TH 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/737975028610_Prarambh%20BATCh%20Commerce%2011.png"},{"id":58,"title":"PRARAMBH SCIENCE 12TH (PCMB) 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/337551428612_Prarambh%20BATCh%20Science%2012.jpg"},{"id":57,"title":"PRARAMBH COMMERCE 12TH 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/677190628611_Prarambh%20BATCh%20Commerce%2012.jpg"},{"id":59,"title":"PRARAMBH HUMANITIES 12TH 2025-26","thumbnail":"https://dxixtlyravvxx.cloudfront.net/540/admin_v1/bundle_management/course/205624828613_Prarambh%20BATCh%20Humanities%2012.jpg"}]};
+
+        // DOM Elements
+        const batchGrid = document.getElementById('batchGrid');
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const emptyState = document.getElementById('emptyState');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const loadMoreContainer = document.getElementById('loadMoreContainer');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateWishlistCount();
+            fetchBatches();
+        });
+
+        window.handleStudyClick = function(event, batchId) {
+            event.preventDefault();
+            window.location.href = `content.html?id=${batchId}`;
+        };
+
+        async function fetchBatches() {
+            try {
+                const response = await fetch('batches.json');
+                if (!response.ok) throw new Error("Failed to load JSON");
+                const json = await response.json();
+                batchesData = json && (json.new || json.old) ? json : EMBEDDED_BATCHES;
+            } catch (error) {
+                console.warn("batches.json fetch failed, using embedded fallback:", error);
+                batchesData = EMBEDDED_BATCHES;
+            }
+            
+            loadingIndicator.classList.add('hidden');
+            batchGrid.classList.remove('hidden');
+            applyFiltersAndRender(true);
+        }
+
+        searchInput.addEventListener('input', () => {
+            if (searchInput.value.length > 0) {
+                clearSearchBtn.classList.remove('hidden');
+            } else {
+                clearSearchBtn.classList.add('hidden');
+            }
+            applyFiltersAndRender(true);
+        });
+
+        window.clearSearch = function() {
+            searchInput.value = '';
+            clearSearchBtn.classList.add('hidden');
+            applyFiltersAndRender(true);
+            searchInput.focus();
+        }
+
+        window.switchTab = function(tabName, updateUI = true) {
+            currentTab = tabName;
+            
+            if(updateUI) {
+                searchInput.value = '';
+                clearSearchBtn.classList.add('hidden');
+                
+                // Reset all tabs
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('bg-border', 'text-white', 'shadow-sm', 'font-semibold');
+                    btn.classList.add('text-gray-400', 'font-medium');
+                });
+                
+                document.querySelectorAll('.tab-btn i').forEach(icon => {
+                    icon.classList.remove('text-primary');
+                });
+                
+                // Set active tab
+                const activeBtn = document.getElementById(`tab-${tabName}`);
+                if (activeBtn) {
+                    activeBtn.classList.remove('text-gray-400', 'font-medium');
+                    activeBtn.classList.add('bg-border', 'text-white', 'shadow-sm', 'font-semibold');
+                }
+                
+                const activeIcon = document.getElementById(`icon-${tabName}`);
+                if (activeIcon) {
+                    activeIcon.classList.add('text-primary');
+                }
+            }
+            
+            applyFiltersAndRender(true);
+        };
+
+        function applyFiltersAndRender(resetPagination = false) {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            if (currentTab === 'wishlist') {
+                const allBatches = [...(batchesData.new || []), ...(batchesData.old || [])];
+                const uniqueBatches = Array.from(new Map(allBatches.map(item => [String(item.id), item])).values());
+                currentFilteredData = uniqueBatches.filter(batch => wishlist.includes(String(batch.id)));
+            } else {
+                currentFilteredData = batchesData[currentTab] || [];
+            }
+
+            if (query) {
+                currentFilteredData = currentFilteredData.filter(batch => {
+                    return batch.title.toLowerCase().includes(query) || String(batch.id).includes(query);
+                });
+            }
+
+            if (resetPagination) {
+                currentlyDisplayedCount = 0;
+                batchGrid.innerHTML = '';
+            }
+
+            renderBatchSlice();
+        }
+
+        function renderBatchSlice() {
+            if (currentFilteredData.length === 0) {
+                batchGrid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+                loadMoreContainer.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            emptyState.classList.remove('flex');
+            batchGrid.classList.remove('hidden');
+
+            const nextCount = Math.min(currentlyDisplayedCount + ITEMS_PER_PAGE, currentFilteredData.length);
+            const itemsToRender = currentFilteredData.slice(currentlyDisplayedCount, nextCount);
+            
+            const html = itemsToRender.map((batch, index) => createCardHTML(batch, index)).join('');
+            
+            if (currentlyDisplayedCount === 0) {
+                batchGrid.innerHTML = html;
+            } else {
+                batchGrid.insertAdjacentHTML('beforeend', html);
+            }
+
+            currentlyDisplayedCount = nextCount;
+
+            if (currentlyDisplayedCount < currentFilteredData.length) {
+                loadMoreContainer.classList.remove('hidden');
+            } else {
+                loadMoreContainer.classList.add('hidden');
+            }
+        }
+
+        window.loadMore = function() {
+            const btn = document.getElementById('loadMoreBtn');
+            if (btn.disabled) return;
+            
+            const originalHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<i class="ph-duotone ph-spinner animate-spin text-lg"></i> Loading...`;
+            
+            setTimeout(() => {
+                renderBatchSlice();
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }, 400);
+        };
+
+        function createCardHTML(batch, index) {
+            const id = String(batch.id);
+            const isInWishlist = wishlist.includes(id);
+            const heartIconClass = isInWishlist ? 'ph-fill ph-heart text-red-500 scale-110' : 'ph-duotone ph-heart text-white group-hover/wish:text-red-400';
+            const delay = (index % ITEMS_PER_PAGE) * 50 + 'ms'; // Staggered intro
+
+            const hasPro = batch.title && batch.title.toUpperCase().includes('PRO');
+            const proBadgeHTML = hasPro ? `
+                <!-- Top Badges -->
+                <div class="absolute top-3 left-3 flex items-center gap-2">
+                    <span class="bg-black/60 backdrop-blur border border-white/10 text-[10px] font-mono uppercase tracking-wider px-2 py-1 rounded text-white flex items-center gap-1 shadow-glass">
+                        <i class="ph-fill ph-star text-primary"></i> PRO
+                    </span>
+                </div>
+            ` : '';
+
+            return `
+                <div class="premium-card bg-surface rounded-2xl overflow-hidden flex flex-col relative pop-in border border-border group" style="animation-delay: ${delay}">
+                    <!-- Image Area -->
+                    <div class="relative w-full aspect-video overflow-hidden bg-background border-b border-border shine-effect cursor-pointer" onclick="handleStudyClick(event, '${id}')">
+                        <img src="${batch.thumbnail}" alt="Thumbnail" loading="lazy" class="card-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                        
+                        <!-- Overlay Gradients -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-90"></div>
+                        
+                        ${proBadgeHTML}
+
+                        <!-- Wishlist Button -->
+                        <button onclick="toggleWishlist(event, '${id}')" class="absolute top-3 right-3 w-9 h-9 bg-black/40 backdrop-blur rounded-full flex items-center justify-center border border-white/20 hover:bg-surface transition-all duration-300 btn-press z-20 group/wish">
+                            <i id="heart-icon-${id}" class="${heartIconClass} text-[18px] transition-all duration-300"></i>
+                        </button>
+                        
+                        <!-- Play Button Overlay -->
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
+                            <div class="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                                <i class="ph-fill ph-play text-2xl text-white ml-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Content Area -->
+                    <div class="p-5 flex flex-col flex-1 relative z-20">
+                        <h3 class="text-white font-semibold text-[15px] leading-snug mb-4 line-clamp-2 group-hover:text-primary transition-colors duration-300">${batch.title}</h3>
+                        
+                        <div class="mt-auto flex items-center justify-between pt-4 border-t border-border/50">
+                            <div class="flex flex-col">
+                                <span class="text-[9px] text-gray-500 font-mono uppercase tracking-widest mb-0.5">Access</span>
+                                <span class="text-green-400 font-mono text-[11px] font-bold flex items-center gap-1.5">
+                                    <span class="relative flex h-2 w-2">
+                                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                      <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                    </span> Free
+                                </span>
+                            </div>
+                            
+                            <button onclick="handleStudyClick(event, '${id}')" class="bg-gradient-to-r from-primary to-orange-500 text-black px-5 py-2 rounded-xl text-xs font-bold transition-all duration-300 btn-press flex items-center gap-2 shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5">
+                                Let's Study <i class="ph-bold ph-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.toggleWishlist = function(event, batchId) {
+            event.stopPropagation();
+            batchId = String(batchId);
+            
+            const index = wishlist.indexOf(batchId);
+            const iconEls = document.querySelectorAll(`#heart-icon-${batchId}`);
+            
+            if (index === -1) {
+                wishlist.push(batchId);
+                iconEls.forEach(iconEl => {
+                    iconEl.className = 'ph-fill ph-heart text-red-500 scale-125 transition-all duration-300';
+                    setTimeout(() => iconEl.classList.replace('scale-125', 'scale-110'), 200);
+                });
+            } else {
+                wishlist.splice(index, 1);
+                iconEls.forEach(iconEl => {
+                    iconEl.className = 'ph-duotone ph-heart text-white group-hover/wish:text-red-400 transition-all duration-300 scale-100';
+                });
+                
+                if (currentTab === 'wishlist') {
+                    // Slight delay to allow animation to finish before removing from dom
+                    setTimeout(() => applyFiltersAndRender(true), 300);
+                }
+            }
+
+            localStorage.setItem('valence_wishlist', JSON.stringify(wishlist));
+            updateWishlistCount();
+        };
+
+        function updateWishlistCount() {
+            const badge = document.getElementById('wishlist-badge');
+            
+            if (wishlist.length > 0) {
+                badge.innerText = wishlist.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
